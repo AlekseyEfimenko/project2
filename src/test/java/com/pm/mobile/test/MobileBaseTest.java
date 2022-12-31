@@ -30,6 +30,6 @@ public class MobileBaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void resetApp() {
-        DriverManager.getDriver().resetApp();
+        DriverManager.getDriver();
     }
 }

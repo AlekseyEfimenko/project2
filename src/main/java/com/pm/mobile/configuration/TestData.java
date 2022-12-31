@@ -46,4 +46,7 @@ public interface TestData extends Config {
 
     @Key("newCommandTimeout")
     int newCommandTimeout();
+
+    @Key("pollingValue")
+    int pollingValue();
 }
