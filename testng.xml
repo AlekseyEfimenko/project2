@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Project_2">
+    <test verbose="2" name="Parimatch.Virtual_Football">
+        <classes>
+            <class name="com.pm.api.test.ApiTest"/>
+            <class name="com.pm.ui.test.UITest"/>
+            <class name="com.pm.mobile.test.MobileTest"/>
+        </classes>
+    </test>
+</suite>
