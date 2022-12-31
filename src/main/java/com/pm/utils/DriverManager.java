@@ -48,12 +48,4 @@ public final class DriverManager {
             LOG.info("Driver is closed");
         });
     }
-
-//    public static void terminateAppium() {
-//        AppiumServerConfigurator.stopServer();
-//    }
-//
-//    public static void terminateEmulator(String udid) {
-//        new Emulator(udid).close();
-//    }
 }

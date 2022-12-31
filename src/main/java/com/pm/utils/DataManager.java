@@ -5,4 +5,5 @@ import org.apache.logging.log4j.Logger;
 
 public class DataManager {
     private static final Logger LOG = LogManager.getRootLogger();
+
 }

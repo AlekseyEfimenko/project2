@@ -11,7 +11,8 @@ import java.io.File;
 public final class FileManager {
     private static final String USER_DIR_PROPERTY = USER_DIR;
 
-    private FileManager() {}
+    private FileManager() {
+    }
 
     public static TestData getData() {
         return ConfigCache.getOrCreate(TestData.class, System.getProperties());

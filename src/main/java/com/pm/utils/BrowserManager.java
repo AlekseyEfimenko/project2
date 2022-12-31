@@ -1,6 +1,7 @@
 package com.pm.utils;
 
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.clearBrowserCookies;
 
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
@@ -10,7 +11,8 @@ import org.apache.logging.log4j.Logger;
 public class BrowserManager {
     private static final Logger LOG = LogManager.getRootLogger();
 
-    private BrowserManager() {}
+    private BrowserManager() {
+    }
 
     /**
      * Opens the page in the browser
@@ -57,5 +59,13 @@ public class BrowserManager {
      */
     public static void pause(long milliseconds) {
         Selenide.sleep(milliseconds);
+    }
+
+    /**
+     * Deletes all cookies
+     */
+    public static void clearAllCookies() {
+        LOG.info("Clearing all cookies");
+        clearBrowserCookies();
     }
 }
