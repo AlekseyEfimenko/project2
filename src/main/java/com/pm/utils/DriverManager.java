@@ -45,7 +45,6 @@ public final class DriverManager {
         Optional.ofNullable(getDriver()).ifPresent((WebDriver driver) -> {
             driver.quit();
             threadLocalDriver.remove();
-            LOG.info("Driver is closed");
         });
     }
 }

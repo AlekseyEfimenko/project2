@@ -2,7 +2,6 @@ package com.pm.mobile.test;
 
 import com.pm.mobile.steps.TestSteps;
 import com.pm.utils.DriverManager;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
@@ -28,8 +27,4 @@ public class MobileBaseTest {
 //        DriverManager.terminateEmulator(udid);
     }
 
-    @AfterMethod(alwaysRun = true)
-    public void resetApp() {
-        DriverManager.getDriver();
-    }
 }

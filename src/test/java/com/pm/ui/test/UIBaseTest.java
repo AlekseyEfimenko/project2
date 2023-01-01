@@ -1,6 +1,8 @@
 package com.pm.ui.test;
 
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
+import com.pm.mobile.EventLogListener;
 import com.pm.ui.steps.TestSteps;
 import com.pm.utils.BrowserManager;
 import com.pm.utils.FileManager;
@@ -12,6 +14,7 @@ public class UIBaseTest {
 
     @BeforeTest
     public void setUp() {
+        WebDriverRunner.addListener(new EventLogListener());
         Configuration.browser = FileManager.getData().browser();
         BrowserManager.navigateTo(FileManager.getData().startPage());
     }
