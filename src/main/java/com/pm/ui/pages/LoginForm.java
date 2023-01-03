@@ -1,9 +1,9 @@
 package com.pm.ui.pages;
 
+import static com.codeborne.selenide.Selenide.$;
+
 import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
-
-import static com.codeborne.selenide.Selenide.$;
 
 public class LoginForm extends Form {
     private static final By LOGIN_FORM_CSS = By.cssSelector("[data-id=login-page]");
@@ -17,9 +17,9 @@ public class LoginForm extends Form {
         super(LOGIN_FORM_CSS, "Parimatch registration form");
     }
 
-    public void selectId() {
-        $(LOGIN_LIST_CSS).shouldBe(Condition.interactable).click();
-        $(EMAIL_XPATH).shouldBe(Condition.interactable).click();
+    public void selectEmail() {
+        waitForElement(LOGIN_LIST_CSS).click();
+        waitForElement(EMAIL_XPATH).click();
     }
 
     public LeagueModePage login(String email, String password) {

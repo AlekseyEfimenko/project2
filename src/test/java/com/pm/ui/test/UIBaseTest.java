@@ -2,7 +2,7 @@ package com.pm.ui.test;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.WebDriverRunner;
-import com.pm.mobile.EventLogListener;
+import com.pm.listener.EventLogListener;
 import com.pm.ui.steps.TestSteps;
 import com.pm.utils.BrowserManager;
 import com.pm.utils.FileManager;

@@ -4,7 +4,11 @@
     <test verbose="2" name="Parimatch.Virtual_Football">
         <classes>
             <class name="com.pm.api.test.ApiTest"/>
-            <class name="com.pm.ui.test.UITest"/>
+            <class name="com.pm.ui.test.UITest">
+                <parameter name="multiOdd_quantity" value="2"/>
+                <parameter name="colour" value="#f8ff13"/>
+                <parameter name="stake" value="100"/>
+            </class>
             <class name="com.pm.mobile.test.MobileTest"/>
         </classes>
     </test>

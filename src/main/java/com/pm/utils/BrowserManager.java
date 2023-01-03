@@ -68,4 +68,15 @@ public class BrowserManager {
         LOG.info("Clearing all cookies");
         clearBrowserCookies();
     }
+
+    /**
+     * Executes JavaScript command
+     *
+     * @param script The script to be executed
+     * @param <T> The type of Object to be obtained
+     * @return Object of type T
+     */
+    public static <T> T executeScript(String script) {
+        return Selenide.executeJavaScript(script);
+    }
 }

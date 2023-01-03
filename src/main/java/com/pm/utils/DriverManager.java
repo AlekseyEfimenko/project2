@@ -1,6 +1,6 @@
 package com.pm.utils;
 
-import com.pm.mobile.EventLogListener;
+import com.pm.listener.EventLogListener;
 import com.pm.mobile.configuration.CapabilitiesConfig;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
