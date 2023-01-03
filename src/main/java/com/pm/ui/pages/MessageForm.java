@@ -1,9 +1,6 @@
 package com.pm.ui.pages;
 
-import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
-
-import static com.codeborne.selenide.Selenide.$;
 
 public class MessageForm extends Form {
     private static final By AUTHORISATION_MESSAGE_CSS = By.cssSelector("[data-id = dialog-casino]");
@@ -14,7 +11,7 @@ public class MessageForm extends Form {
     }
 
     public LoginForm clickLogIn() {
-        $(LOGIN_CSS).shouldBe(Condition.interactable).click();
+        waitForElement(LOGIN_CSS).click();
         return new LoginForm();
     }
 

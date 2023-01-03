@@ -1,0 +1,15 @@
+*.DS_Store
+hs_err_pid*
+*.*~
+*.iml
+application.log
+target/
+.idea/
+.idea
+.gradle/
+*.log
+build/
+*.bak
+mvnw
+mvnw.cmd
+.mvn/
