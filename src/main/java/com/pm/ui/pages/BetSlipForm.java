@@ -1,5 +1,6 @@
 package com.pm.ui.pages;
 
+import com.codeborne.selenide.Condition;
 import com.pm.utils.BrowserManager;
 import com.pm.utils.DataManager;
 import org.openqa.selenium.By;
@@ -39,7 +40,7 @@ public class BetSlipForm extends Form {
     }
 
     public void selectMulti() {
-        waitForElement(MULTI_XPATH).click();
+        waitForElement(MULTI_XPATH).shouldHave(Condition.enabled).click();
     }
 
     public String getMultiUnderlineColor() {

@@ -38,12 +38,22 @@ public class TestSteps {
         LOG.info(SUCCESS_MESSAGE);
     }
 
+    public void logIn(String email, String password) {
+        loginForm.selectEmail();
+        loginForm.login(email, password);
+    }
+
     public void assertLeagueModePageIsOpened() {
         LOG.info(CHECK_PAGE_MESSAGE, leagueModePage.getName());
         assertThat(leagueModePage.isDisplayed())
                 .as(ERROR_MESSAGE, leagueModePage.getName())
                 .isTrue();
         LOG.info(SUCCESS_MESSAGE);
+    }
+
+    public void selectMatchDay() {
+        LOG.info("Selecting the next match day");
+        leagueModePage.selectNextMatchDay();
     }
 
     public void addOddsToBetSlip(int quantity) {
@@ -55,8 +65,8 @@ public class TestSteps {
         LOG.info("Checking if the quantity of bets in the bet slip equals {}, the number of bets we have added",
                 quantity);
         assertThat(betSlipForm.getBetsQuantity() == quantity)
-                .as("The quantity of bets in the bet slip is not equals {}, the number of bets we have added",
-                        quantity)
+                .as(String.format("The quantity of bets in the bet slip is %1$s and the number of bets we have added is %2$s",
+                        betSlipForm.getBetsQuantity(), quantity))
                 .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
@@ -64,6 +74,9 @@ public class TestSteps {
     @SuppressWarnings("all")
     public void assertCorrectOddsAreAdded() {
         LOG.info("Checking if the bet slip contains odds we have added");
+        betSlipForm.getOdds().forEach(System.out::println);
+        System.out.println();
+        ((Collection<?>) ScenarioContext.getContext(Context.ODDS)).forEach(System.out::println);
         assertThat(betSlipForm.getOdds().containsAll((Collection<?>) ScenarioContext.getContext(Context.ODDS)))
                 .as("The bet slip contains not the same odds we have added")
                 .isTrue();

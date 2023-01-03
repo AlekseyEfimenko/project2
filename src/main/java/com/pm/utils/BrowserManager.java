@@ -8,6 +8,8 @@ import com.codeborne.selenide.SelenideElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.time.Duration;
+
 public class BrowserManager {
     private static final Logger LOG = LogManager.getRootLogger();
 
@@ -32,6 +34,16 @@ public class BrowserManager {
     public static void switchToFrame(SelenideElement element) {
         LOG.info("Switching to the iframe {}", element);
         Selenide.switchTo().frame(element);
+    }
+
+    /**
+     * Switches to the iframe by the index
+     *
+     * @param id The index of frame to switch
+     */
+    public static void switchToFrame(String id) {
+        LOG.info("Switching to the iframe with id {}", id);
+        Selenide.switchTo().frame(id, Duration.ofSeconds(FileManager.getData().explicitWait()));
     }
 
     /**

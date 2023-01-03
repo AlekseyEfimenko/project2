@@ -16,6 +16,8 @@ public class UIBaseTest {
     public void setUp() {
         WebDriverRunner.addListener(new EventLogListener());
         Configuration.browser = FileManager.getData().browser();
+        Configuration.holdBrowserOpen = true;
+        System.setProperty("chromeoptions.args", "--user-agent=ParimatchTechAcademy/89870edc1aaea008bd3a519c");
         BrowserManager.navigateTo(FileManager.getData().startPage());
     }
 

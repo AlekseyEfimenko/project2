@@ -7,17 +7,36 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverListener;
 
+import java.util.List;
+
 public class EventLogListener implements WebDriverListener {
     private static final Logger LOG = LogManager.getRootLogger();
+    private boolean isLog = true;
 
     @Override
     public void beforeFindElement(WebDriver driver, By locator) {
-        LOG.info("Trying to find element by the locator: {}", locator);
+        if (isLog) {
+            LOG.info("Trying to find element {}", locator);
+            isLog = false;
+        }
+    }
+
+    @Override
+    public void afterFindElement(WebDriver driver, By locator, WebElement result) {
+        isLog = true;
     }
 
     @Override
     public void beforeFindElements(WebDriver driver, By locator) {
-        LOG.info("Trying to find elements by the locator: {}", locator);
+        if (isLog) {
+            LOG.info("Trying to find elements {}", locator);
+            isLog = false;
+        }
+    }
+
+    @Override
+    public void afterFindElements(WebDriver driver, By locator, List<WebElement> result) {
+        isLog = true;
     }
 
     @Override
@@ -32,26 +51,27 @@ public class EventLogListener implements WebDriverListener {
 
     @Override
     public void beforeClick(WebElement element) {
-        LOG.info("Clicking on the element: {}", element);
+        LOG.info("Clicking on the element <{}>", getLocator(element));
     }
 
     @Override
     public void afterClick(WebElement element) {
-        LOG.info("Element <{}> is clicked", element);
+        LOG.info("Element <{}> is clicked", getLocator(element));
     }
 
     @Override
     public void beforeSendKeys(WebElement element, CharSequence... keysToSend) {
-        LOG.info("Sending the text <{}> to the element <{}>", keysToSend, element);
+        LOG.info("Sending the text <{}> to the element <{}>", keysToSend, getLocator(element));
     }
 
     @Override
     public void beforeClear(WebElement element) {
-        LOG.info("Clearing the textfield in the element <{}>", element);
+        LOG.info("Clearing the textfield in the element <{}>", getLocator(element));
     }
 
-    @Override
-    public void beforeIsDisplayed(WebElement element) {
-        LOG.info("Check if element <{}> is displayed", element);
+    private String getLocator(WebElement element) {
+        return element.toString()
+                .substring(element.toString().indexOf("->") + 3,
+                        element.toString().length() - 1);
     }
 }

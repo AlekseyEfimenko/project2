@@ -35,6 +35,6 @@ public abstract class Form {
     }
 
     public SelenideElement waitForElement(By locator) {
-        return $(locator).shouldBe(Condition.interactable, Duration.ofSeconds(FileManager.getData().implicitWait()));
+        return $(locator).shouldBe(Condition.interactable, Duration.ofSeconds(FileManager.getData().explicitWait()));
     }
 }
