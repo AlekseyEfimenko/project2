@@ -3,7 +3,7 @@ package com.pm.utils;
 import static org.apache.commons.lang3.SystemUtils.USER_DIR;
 
 import com.pm.mobile.configuration.Capabilities;
-import com.pm.mobile.configuration.TestData;
+import com.pm.TestData;
 import org.aeonbits.owner.ConfigCache;
 
 import java.io.File;

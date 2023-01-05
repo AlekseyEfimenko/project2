@@ -18,6 +18,7 @@ import java.util.List;
 public class ApiManager {
     private static final String BASE_PATH = FileManager.getData().basePath();
     private static final String CONTENT_TYPE = "Content-Type";
+    private static final String AUTHORISATION = "Authorization";
     private static ApiManager instance;
     private final RequestSpecification specification = new RequestSpecBuilder()
             .setBaseUri(BASE_PATH)
@@ -59,7 +60,26 @@ public class ApiManager {
      * @param obj    T object to be sent
      */
     public <T> void postRequest(String target, T obj) {
-        response = RestAssured.given().header(CONTENT_TYPE, ContentType.JSON).body(obj).post(BASE_PATH + target);
+        response = RestAssured.given()
+                .header(CONTENT_TYPE, ContentType.JSON)
+                .body(obj)
+                .post(BASE_PATH + target);
+    }
+
+    /**
+     * Send data to the API server to create new resource
+     *
+     * @param target URL to post request
+     * @param obj    T object to be sent
+     * @param header The value of header in the request
+     * @param <T>    The type of object
+     */
+    public <T> void postRequest(String target, T obj, String header) {
+        response = RestAssured.given()
+                .header(CONTENT_TYPE, ContentType.JSON)
+                .header(AUTHORISATION, header)
+                .body(obj)
+                .post(BASE_PATH + target);
     }
 
     /**
@@ -137,7 +157,7 @@ public class ApiManager {
             if (requestSpec.getMethod().equals("GET")) {
                 LOG.info("Getting request from {}", requestSpec.getURI());
             } else if (requestSpec.getMethod().equals("POST")) {
-                LOG.info("Post request to {}}", requestSpec.getURI());
+                LOG.info("Post request to {}", requestSpec.getURI());
             }
             LOG.info("Status code of request is: {}", response.statusCode());
             if (response.statusCode() >= StatusCode.BAD_REQUEST.getValue()) {

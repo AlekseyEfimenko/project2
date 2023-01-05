@@ -6,7 +6,7 @@
             <!--<class name="com.pm.api.test.ApiTest"/>-->
             <class name="com.pm.ui.test.UITest">
                 <parameter name="multiOdd_quantity" value="2"/>
-                <parameter name="colour" value="#f8ff13"/>
+                <parameter name="colour" value="rgb(248, 255, 19)"/>
                 <parameter name="stake" value="100"/>
             </class>
             <!--<class name="com.pm.mobile.test.MobileTest"/>-->

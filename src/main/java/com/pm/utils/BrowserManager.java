@@ -7,6 +7,7 @@ import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
 
@@ -85,10 +86,29 @@ public class BrowserManager {
      * Executes JavaScript command
      *
      * @param script The script to be executed
-     * @param <T> The type of Object to be obtained
+     * @param <T>    The type of Object to be obtained
      * @return Object of type T
      */
     public static <T> T executeScript(String script) {
         return Selenide.executeJavaScript(script);
+    }
+
+    /**
+     * Executes JavaScript command
+     *
+     * @param script  The script to be executed
+     * @param element WebElement to pass as parameter to JavaScript
+     * @param <T>     The type of Object to be obtained
+     * @return Object of type T
+     */
+    public static <T> T executeScript(String script, WebElement element) {
+        return Selenide.executeJavaScript(script, element);
+    }
+
+    /**
+     * Reloads the page
+     */
+    public static void refreshThePage() {
+        Selenide.refresh();
     }
 }

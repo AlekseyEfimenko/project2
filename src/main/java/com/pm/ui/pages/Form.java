@@ -1,8 +1,9 @@
 package com.pm.ui.pages;
 
 import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Condition.interactable;
+import static com.codeborne.selenide.Condition.visible;
 
-import com.codeborne.selenide.Condition;;
 import com.codeborne.selenide.SelenideElement;
 import com.pm.utils.FileManager;
 import org.apache.logging.log4j.LogManager;
@@ -31,10 +32,10 @@ public abstract class Form {
 
     public boolean isDisplayed() {
         LOG.info("Check if element with locator <{}> is displayed", locator);
-        return $(locator).should(Condition.visible).isDisplayed();
+        return $(locator).shouldBe(visible).isDisplayed();
     }
 
     public SelenideElement waitForElement(By locator) {
-        return $(locator).shouldBe(Condition.interactable, Duration.ofSeconds(FileManager.getData().explicitWait()));
+        return $(locator).shouldBe(interactable, Duration.ofSeconds(FileManager.getData().explicitWait()));
     }
 }

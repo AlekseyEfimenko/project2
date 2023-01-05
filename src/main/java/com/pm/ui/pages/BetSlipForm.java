@@ -1,11 +1,11 @@
 package com.pm.ui.pages;
 
+import static com.codeborne.selenide.Selenide.$$;
+
 import com.codeborne.selenide.Condition;
 import com.pm.utils.BrowserManager;
 import com.pm.utils.DataManager;
 import org.openqa.selenium.By;
-
-import static com.codeborne.selenide.Selenide.$$;
 
 import java.util.List;
 
@@ -22,9 +22,10 @@ public class BetSlipForm extends Form {
             By.xpath("//*[@class = 'sr-bs-footer__information']//span[@class = 'sr-bs-currency-value  ']");
     private static final By PLACE_BET_CLASS = By.className("sr-bs-footer__button");
     private static final String MULTI_BUTTON_CSS = ".sr-bs-systems-nav__button--active";
-    private static final String SCRIPT = String.format(
-            "return window.getComputedStyle(document.querySelector('%1$s'),':after').getPropertyValue('background-color')\";",
+    private static final String GET_AFTER_SCRIPT = String.format(
+            "return window.getComputedStyle(document.querySelector('%1$s'),':after').getPropertyValue('background-color');",
             MULTI_BUTTON_CSS);
+    private static final String CLICK_SCRIPT = "arguments[0].click();";
 
 
     public BetSlipForm() {
@@ -40,11 +41,11 @@ public class BetSlipForm extends Form {
     }
 
     public void selectMulti() {
-        waitForElement(MULTI_XPATH).shouldHave(Condition.enabled).click();
+        BrowserManager.executeScript(CLICK_SCRIPT, waitForElement(MULTI_XPATH));
     }
 
     public String getMultiUnderlineColor() {
-        return BrowserManager.executeScript(SCRIPT);
+        return BrowserManager.executeScript(GET_AFTER_SCRIPT);
     }
 
     public void setStake(String stake) {
@@ -52,7 +53,7 @@ public class BetSlipForm extends Form {
     }
 
     public String getTotalOdds() {
-        return waitForElement(TOTAL_ODDS_XPATH).text();
+        return waitForElement(TOTAL_ODDS_XPATH).shouldNotBe(Condition.exactText("0.00")).text();
     }
 
     public String getPossibleWinnings() {

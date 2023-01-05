@@ -1,8 +1,7 @@
 package com.pm.ui.pages;
 
-import static com.codeborne.selenide.Selenide.$;
+import static com.codeborne.selenide.Condition.attribute;
 
-import com.codeborne.selenide.Condition;
 import org.openqa.selenium.By;
 
 public class LoginForm extends Form {
@@ -23,9 +22,9 @@ public class LoginForm extends Form {
     }
 
     public LeagueModePage login(String email, String password) {
-        $(LOGIN_ID).setValue(email);
-        $(PASSWORD_ID).setValue(password);
-        $(LOGIN_BUTTON_CSS).shouldBe(Condition.interactable).click();
+        waitForElement(LOGIN_ID).setValue(email).shouldHave(attribute("value", email));
+        waitForElement(PASSWORD_ID).setValue(password).shouldHave(attribute("value", password));
+        waitForElement(LOGIN_BUTTON_CSS).click();
         return new LeagueModePage();
     }
 }

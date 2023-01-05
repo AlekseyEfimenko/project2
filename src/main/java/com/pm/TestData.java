@@ -1,4 +1,4 @@
-package com.pm.mobile.configuration;
+package com.pm;
 
 import org.aeonbits.owner.Config;
 import org.aeonbits.owner.Config.LoadPolicy;
@@ -37,4 +37,7 @@ public interface TestData extends Config {
 
     @Key("basePath")
     String basePath();
+
+    @Key("selenideTimeout")
+    long selenideTimeout();
 }
