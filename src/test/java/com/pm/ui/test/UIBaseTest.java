@@ -20,7 +20,7 @@ public class UIBaseTest {
         Configuration.timeout = FileManager.getData().selenideTimeout();
         Configuration.browserSize = "1920x1080";
 //        Configuration.headless = true;
-        Configuration.holdBrowserOpen = true;
+//        Configuration.holdBrowserOpen = true;
         System.setProperty("chromeoptions.args", "--user-agent=ParimatchTechAcademy/89870edc1aaea008bd3a519c");
     }
 
@@ -30,7 +30,7 @@ public class UIBaseTest {
     }
 
     @AfterMethod
-    public void teerDown() {
+    public void clearCookies() {
         BrowserManager.clearAllCookies();
     }
 }

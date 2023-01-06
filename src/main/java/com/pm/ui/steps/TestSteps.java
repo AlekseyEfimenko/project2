@@ -110,7 +110,6 @@ public class TestSteps {
     public void assertTotalOddsIsCorrect() {
         LOG.info("Checking if correct total odds are displayed in the bet slip");
         double expectedOdds = DataManager.calculateTotalOdds((List<String>) (ScenarioContext.getContext(Context.ODDS)));
-//        ScenarioContext.setContext(Context.TOTAL_ODDS, expectedOdds);
         double actualOdds = Double.parseDouble(betSlipForm.getTotalOdds());
 
         assertThat(actualOdds == expectedOdds)
@@ -140,5 +139,19 @@ public class TestSteps {
     public void acceptBet() {
         LOG.info("Placing the bet in the bet slip");
         betSlipForm.placeBet();
+    }
+
+    public void assertErrorMessageIsDisplayed(String message) {
+        LOG.info("Checking if error message \"{}\" is displayed", message);
+
+        assertThat(betSlipForm.getErrorMessage())
+                .as(String.format("Error message \"%1$s\" is not displayed", message))
+                .isEqualTo(message);
+        LOG.info(SUCCESS_MESSAGE);
+    }
+
+    public void removeOddsFromBetSlip() {
+        LOG.info("Removing all odds from the bet slip");
+        betSlipForm.clearBetSlip();
     }
 }

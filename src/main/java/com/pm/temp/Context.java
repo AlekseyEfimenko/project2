@@ -5,5 +5,6 @@ package com.pm.temp;
  */
 public enum Context {
     ODDS,
+    TOTAL_ODDS,
     TOKEN,
 }

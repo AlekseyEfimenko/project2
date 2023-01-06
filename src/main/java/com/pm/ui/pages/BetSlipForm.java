@@ -21,6 +21,8 @@ public class BetSlipForm extends Form {
     private static final By POSSIBLE_WINNNINGS_XPATH =
             By.xpath("//*[@class = 'sr-bs-footer__information']//span[@class = 'sr-bs-currency-value  ']");
     private static final By PLACE_BET_CLASS = By.className("sr-bs-footer__button");
+    private static final By NOT_ENOUGH_MONEY_MESSAGE_CSS = By.cssSelector(".sr-bs-footer .sr-bs-message--error");
+    private static final By REMOVE_ALL_CSS = By.cssSelector(".sr-bs-remove-btn--remove-all");
     private static final String MULTI_BUTTON_CSS = ".sr-bs-systems-nav__button--active";
     private static final String GET_AFTER_SCRIPT = String.format(
             "return window.getComputedStyle(document.querySelector('%1$s'),':after').getPropertyValue('background-color');",
@@ -62,5 +64,13 @@ public class BetSlipForm extends Form {
 
     public void placeBet() {
         waitForElement(PLACE_BET_CLASS).click();
+    }
+
+    public String getErrorMessage() {
+        return waitForElement(NOT_ENOUGH_MONEY_MESSAGE_CSS).text();
+    }
+
+    public void clearBetSlip() {
+        waitForElement(REMOVE_ALL_CSS).click();
     }
 }

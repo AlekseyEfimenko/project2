@@ -1,6 +1,8 @@
 package com.pm.utils;
 
 import com.codeborne.selenide.SelenideElement;
+import com.pm.temp.Context;
+import com.pm.temp.ScenarioContext;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -85,9 +87,9 @@ public class DataManager {
      * @return Total coefficient
      */
     public static double calculateTotalOdds(List<String> odds) {
-        LOG.info("Calculating total odds");
+        LOG.info("Calculating total odds with odds {}", odds);
         double totalOdds = convertListStringToDouble(odds).stream().reduce(1.0, (a, b) -> a * b);
-        System.out.format("Total odds is: %1$s", totalOdds);
+        ScenarioContext.setContext(Context.TOTAL_ODDS, Math.round(totalOdds * 10000.0) / 10000.0);
         return roundToTwoDecimalPlaces(totalOdds);
     }
 
@@ -101,7 +103,7 @@ public class DataManager {
     public static double calculatePossiblePayout(List<String> odds, double betSum) {
         LOG.info("Calculating possible payout according to the coefficients = {} and bet sum = {}",
                 odds, betSum);
-        return roundToTwoDecimalPlaces(calculateTotalOdds(odds) * betSum);
+        return roundToTwoDecimalPlaces((double) ScenarioContext.getContext(Context.TOTAL_ODDS) * betSum);
     }
 
     /**
@@ -123,12 +125,12 @@ public class DataManager {
      * @return Rounded double number
      */
     private static double roundToTwoDecimalPlaces(double number) {
-        StringBuilder builder = new StringBuilder(String.valueOf(number));
-        int dotIndex = builder.indexOf(".");
-        if (builder.charAt(dotIndex + 3) == '5') {
-            builder.replace(dotIndex + 3, dotIndex + 4, "6");
-        }
-        number = Double.parseDouble(builder.toString());
+//        StringBuilder builder = new StringBuilder(String.valueOf(number));
+//        int dotIndex = builder.indexOf(".");
+//        if (dotIndex != -1 && builder.length() > dotIndex + 3 && builder.charAt(dotIndex + 3) == '5') {
+//            builder.insert(dotIndex + 3, "6");
+//        }
+//        number = Double.parseDouble(builder.toString());
         return Math.round(number * 100.0) / 100.0;
     }
 
