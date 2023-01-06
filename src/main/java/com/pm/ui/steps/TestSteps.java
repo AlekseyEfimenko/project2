@@ -150,8 +150,26 @@ public class TestSteps {
         LOG.info(SUCCESS_MESSAGE);
     }
 
-    public void removeOddsFromBetSlip() {
+    public void removeAllOddsFromBetSlip() {
         LOG.info("Removing all odds from the bet slip");
         betSlipForm.clearBetSlip();
+    }
+
+    public void removeBetsFromBetSlip(int numToRemove) {
+        LOG.info("Removing random {} bets from the bet slip", numToRemove);
+        for (int i = 0; i < numToRemove; i++) {
+            betSlipForm.removeOdd();
+        }
+    }
+
+    public void assertBetSlipContainsNumOfBets(int numOfBets) {
+        LOG.info("Checking if the bet slip contains {} bets", numOfBets);
+
+        assertThat(betSlipForm.getNumberOfBets())
+                .as(String.format("Expected number of bets in the bet slip is: %1$s, but was found: %2$s",
+                        numOfBets,
+                        betSlipForm.getNumberOfBets()))
+                .isEqualTo(numOfBets);
+        LOG.info(SUCCESS_MESSAGE);
     }
 }

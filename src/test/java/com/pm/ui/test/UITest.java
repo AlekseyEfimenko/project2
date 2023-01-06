@@ -8,12 +8,14 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class UITest extends UIBaseTest {
-    private static final String EMAIL = "l2kirs@gmail.com";//System.getProperty("email");
-    private static final String PASSWORD = "!Qw23er4";//System.getProperty("password");
+    private static final String EMAIL = System.getProperty("email");
+    private static final String PASSWORD = System.getProperty("password");
     private static final double MIN_STAKE = 10.0;
     private static final double MAX_STAKE = 20000.0;
     private static final double STAKE = DataManager.getRandomNumber(MIN_STAKE, MAX_STAKE);
 
+    @Feature("Desktop")
+    @Description("Log in to the site")
     @Test
     public void logIn() {
         steps.clickLogIn();
@@ -46,6 +48,25 @@ public class UITest extends UIBaseTest {
         steps.acceptBet();
         steps.assertErrorMessageIsDisplayed(message);
 
-        steps.removeOddsFromBetSlip();
+        steps.removeAllOddsFromBetSlip();
+    }
+
+    @Feature("Desktop")
+    @Description("Log in to the site")
+    @Parameters({"betsToAdd", "betsToRemove"})
+    @Test(dependsOnMethods = {"logIn"})
+    public void removeBetsFromBetSlip(int add, int remove) {
+        steps.assertLeagueModePageIsOpened();
+
+        steps.selectMatchDay();
+        steps.addOddsToBetSlip(add);
+        steps.assertCorrectQuantityInBetSlip(add);
+        steps.assertCorrectOddsAreAdded();
+
+        steps.removeBetsFromBetSlip(remove);
+        steps.assertCorrectQuantityInBetSlip(add - remove);
+        steps.assertBetSlipContainsNumOfBets(add - remove);
+
+        steps.removeAllOddsFromBetSlip();
     }
 }

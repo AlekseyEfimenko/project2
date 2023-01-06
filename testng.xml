@@ -8,6 +8,8 @@
                 <parameter name="multiOdd_quantity" value="2"/>
                 <parameter name="colour" value="rgb(248, 255, 19)"/>
                 <parameter name="errorMessage" value="Insufficient funds."/>
+                <parameter name="betsToAdd" value="5"/>
+                <parameter name="betsToRemove" value="3"/>
             </class>
             <!--<class name="com.pm.mobile.test.MobileTest"/>-->
         </classes>

@@ -1,8 +1,8 @@
 package com.pm.ui.pages;
 
 import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Condition.exactText;
 
-import com.codeborne.selenide.Condition;
 import com.pm.utils.BrowserManager;
 import com.pm.utils.DataManager;
 import org.openqa.selenium.By;
@@ -23,11 +23,14 @@ public class BetSlipForm extends Form {
     private static final By PLACE_BET_CLASS = By.className("sr-bs-footer__button");
     private static final By NOT_ENOUGH_MONEY_MESSAGE_CSS = By.cssSelector(".sr-bs-footer .sr-bs-message--error");
     private static final By REMOVE_ALL_CSS = By.cssSelector(".sr-bs-remove-btn--remove-all");
+    private static final By REMOVE_BET_CSS = By.cssSelector(".sr-bs-line .sr-bs-remove-btn ");
+    private static final By BET_CSS = By.cssSelector(".sr-bs-line ");
     private static final String MULTI_BUTTON_CSS = ".sr-bs-systems-nav__button--active";
     private static final String GET_AFTER_SCRIPT = String.format(
             "return window.getComputedStyle(document.querySelector('%1$s'),':after').getPropertyValue('background-color');",
             MULTI_BUTTON_CSS);
     private static final String CLICK_SCRIPT = "arguments[0].click();";
+    private static final String SCROLL_SCRIPT = "arguments[0].scrollIntoView();";
 
 
     public BetSlipForm() {
@@ -35,6 +38,7 @@ public class BetSlipForm extends Form {
     }
 
     public int getBetsQuantity() {
+        BrowserManager.executeScript(SCROLL_SCRIPT, waitForElement(BET_SLIP_CONTAINER_ID));
         return DataManager.getNumOfBets(waitForElement(BET_SLIP_CONTAINER_ID).text());
     }
 
@@ -55,7 +59,7 @@ public class BetSlipForm extends Form {
     }
 
     public String getTotalOdds() {
-        return waitForElement(TOTAL_ODDS_XPATH).shouldNotBe(Condition.exactText("0.00")).text();
+        return waitForElement(TOTAL_ODDS_XPATH).shouldNotBe(exactText("0.00")).text();
     }
 
     public String getPossibleWinnings() {
@@ -72,5 +76,13 @@ public class BetSlipForm extends Form {
 
     public void clearBetSlip() {
         waitForElement(REMOVE_ALL_CSS).click();
+    }
+
+    public void removeOdd() {
+        DataManager.getRandomFromList($$(REMOVE_BET_CSS)).click();
+    }
+
+    public int getNumberOfBets() {
+        return $$(BET_CSS).size();
     }
 }

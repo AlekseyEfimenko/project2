@@ -89,6 +89,14 @@ public class DataManager {
     public static double calculateTotalOdds(List<String> odds) {
         LOG.info("Calculating total odds with odds {}", odds);
         double totalOdds = convertListStringToDouble(odds).stream().reduce(1.0, (a, b) -> a * b);
+
+        /* Because of mistakes in multiplying, sometimes the result is incorrect, which is why the next rounding
+        of incorrect results will lead to an error. For example, 2.05 * 2.90 always will be 5.944999999999999 but
+        not 5.945 as expected. And after rounding to two decimal places we will receive 5.94 but not 5.95.
+        In asserting total odds the test fails. So we add 0.0000001 to solve this error.
+         */
+        totalOdds += .0000001;
+
         ScenarioContext.setContext(Context.TOTAL_ODDS, Math.round(totalOdds * 10000.0) / 10000.0);
         return roundToTwoDecimalPlaces(totalOdds);
     }
@@ -125,12 +133,6 @@ public class DataManager {
      * @return Rounded double number
      */
     private static double roundToTwoDecimalPlaces(double number) {
-//        StringBuilder builder = new StringBuilder(String.valueOf(number));
-//        int dotIndex = builder.indexOf(".");
-//        if (dotIndex != -1 && builder.length() > dotIndex + 3 && builder.charAt(dotIndex + 3) == '5') {
-//            builder.insert(dotIndex + 3, "6");
-//        }
-//        number = Double.parseDouble(builder.toString());
         return Math.round(number * 100.0) / 100.0;
     }
 
