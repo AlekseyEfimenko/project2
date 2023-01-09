@@ -6,6 +6,7 @@ import com.pm.temp.ScenarioContext;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,6 +42,7 @@ public class DataManager {
      * @return List of random elements selected from lst
      */
     public static <T> List<T> getRandomList(List<T> lst, int n) {
+        LOG.info("List of matches size is: {}", lst.size());
         int size = Math.min(lst.size(), n);
         List<T> copy = new LinkedList<>(lst);
         Collections.shuffle(copy);
@@ -55,6 +57,7 @@ public class DataManager {
      * @return Random element
      */
     public static <T> T getRandomFromList(List<T> elements) {
+        LOG.info("List of odd in match size is: {}", elements.size());
         return elements.get(new Random().nextInt(elements.size()));
     }
 
@@ -77,6 +80,18 @@ public class DataManager {
     public static List<String> getListOfTexts(List<SelenideElement> elements) {
         List<String> odds = new ArrayList<>();
         elements.forEach(element -> odds.add(element.text()));
+        return odds;
+    }
+
+    /**
+     * Gets text from the element and puts it to the List
+     *
+     * @param elements The element to get text from
+     * @return The list of texts in all elements
+     */
+    public static List<String> getListOfTextsMobile(List<WebElement> elements) {
+        List<String> odds = new ArrayList<>();
+        elements.forEach(element -> odds.add(element.getText()));
         return odds;
     }
 
@@ -168,5 +183,15 @@ public class DataManager {
                 getRandomNumber(length / 2 - 1),
                 getRandomString(1).toUpperCase(),
                 RandomStringUtils.random(1, 33, 47, false, false));
+    }
+
+    /**
+     * Gets last n elements from the list
+     *
+     * @param number Number of last elements to get
+     * @return List? contains last n elements
+     */
+    public static <T> List<T> getLastElements(List<T> lst, int number) {
+        return lst.subList(lst.size() - number, lst.size());
     }
 }

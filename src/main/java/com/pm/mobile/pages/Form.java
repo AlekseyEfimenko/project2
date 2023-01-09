@@ -1,6 +1,8 @@
 package com.pm.mobile.pages;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
+import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfAllElementsLocatedBy;
 
 import com.pm.utils.DriverManager;
 import com.pm.utils.FileManager;
@@ -8,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -15,6 +18,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Wait;
 
 import java.time.Duration;
+import java.util.List;
 
 public abstract class Form {
     private static final Logger LOG = LogManager.getRootLogger();
@@ -39,17 +43,38 @@ public abstract class Form {
         return waitForExpectedElement(locator).isDisplayed();
     }
 
+    public WebElement waitForVisibleElement(By locator) {
+        return waitForElementExplicitly(FileManager.getData().explicitWait(),
+                FileManager.getData().pollingValue(),
+                visibilityOfElementLocated(locator));
+    }
+
     public WebElement waitForExpectedElement(By locator) {
         return waitForElementExplicitly(FileManager.getData().explicitWait(),
                 FileManager.getData().pollingValue(),
                 presenceOfElementLocated(locator));
     }
 
+    public List<WebElement> waitForExpectedElements(By locator) {
+        return waitForElementsExplicitly(FileManager.getData().explicitWait(),
+                FileManager.getData().pollingValue(),
+                presenceOfAllElementsLocatedBy(locator));
+    }
+
     private static WebElement waitForElementExplicitly(int waitValue, int pollyngValue, ExpectedCondition<?> isTrue) {
         Wait<WebDriver> wait = new FluentWait<>(DriverManager.getDriver())
                 .withTimeout(Duration.ofSeconds(waitValue))
                 .pollingEvery(Duration.ofMillis(pollyngValue))
-                .ignoring(NoSuchElementException.class);
+                .ignoring(NoSuchElementException.class)
+                .ignoring(StaleElementReferenceException.class);
         return (WebElement) wait.until(isTrue);
+    }
+
+    private static List<WebElement> waitForElementsExplicitly(int waitValue, int pollyngValue, ExpectedCondition<?> isTrue) {
+        Wait<WebDriver> wait = new FluentWait<>(DriverManager.getDriver())
+                .withTimeout(Duration.ofSeconds(waitValue))
+                .pollingEvery(Duration.ofMillis(pollyngValue))
+                .ignoring(NoSuchElementException.class);
+        return (List<WebElement>) wait.until(isTrue);
     }
 }

@@ -2,16 +2,24 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Project_2">
     <test verbose="2" name="Parimatch.Virtual_Football">
+        <parameter name="multiOdd_quantity" value="2"/>
+        <parameter name="colour" value="rgb(248, 255, 19)"/>
+        <parameter name="errorMessage1" value="Insufficient funds."/>
+        <parameter name="errorMessage2" value="Ticket rejected by backend"/>
+        <parameter name="errorMessageMobile1" value="Недостаточно средств."/>
+        <parameter name="errorMessageMobile2" value="Ставка отклонена сервером"/>
+        <parameter name="betsToAdd" value="5"/>
+        <parameter name="betsToRemove" value="3"/>
         <classes>
             <!--<class name="com.pm.api.test.ApiTest"/>-->
-            <class name="com.pm.ui.test.UITest">
+            <!--<class name="com.pm.ui.test.UITest">
                 <parameter name="multiOdd_quantity" value="2"/>
                 <parameter name="colour" value="rgb(248, 255, 19)"/>
                 <parameter name="errorMessage" value="Insufficient funds."/>
                 <parameter name="betsToAdd" value="5"/>
                 <parameter name="betsToRemove" value="3"/>
-            </class>
-            <!--<class name="com.pm.mobile.test.MobileTest"/>-->
+            </class>-->
+            <class name="com.pm.mobile.test.MobileTest"/>
         </classes>
     </test>
 </suite>

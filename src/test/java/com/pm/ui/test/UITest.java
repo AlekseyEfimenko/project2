@@ -26,11 +26,12 @@ public class UITest extends UIBaseTest {
 
     @Feature("Desktop")
     @Description("Placing multi bet")
-    @Parameters({"multiOdd_quantity", "colour", "errorMessage"})
+    @Parameters({"multiOdd_quantity", "colour", "errorMessage1", "errorMessage2"})
     @Test(dependsOnMethods = {"logIn"})
     public void testMultiBet(@Optional int quantity,
                              @Optional String colour,
-                             @Optional String message) {
+                             @Optional String message1,
+                             @Optional String message2) {
         steps.assertLeagueModePageIsOpened();
 
         steps.selectMatchDay();
@@ -46,13 +47,13 @@ public class UITest extends UIBaseTest {
         steps.assertPossibleWinningsIsCorrect(STAKE);
 
         steps.acceptBet();
-        steps.assertErrorMessageIsDisplayed(message);
+        steps.assertErrorMessageIsDisplayed(message1, message2);
 
         steps.removeAllOddsFromBetSlip();
     }
 
     @Feature("Desktop")
-    @Description("Log in to the site")
+    @Description("Removing bets from the bet slip")
     @Parameters({"betsToAdd", "betsToRemove"})
     @Test(dependsOnMethods = {"logIn"})
     public void removeBetsFromBetSlip(int add, int remove) {

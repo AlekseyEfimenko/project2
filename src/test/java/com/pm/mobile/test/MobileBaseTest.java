@@ -7,7 +7,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
-
 public class MobileBaseTest {
     protected TestSteps steps = new TestSteps();
 
@@ -19,6 +18,8 @@ public class MobileBaseTest {
         DriverManager.createDriver(udid, deviceName, platformVersion);
     }
 
+
+
     @AfterTest(alwaysRun = true)
     @Parameters("UDID")
     public void closeSession(@Optional String udid) {
@@ -26,5 +27,4 @@ public class MobileBaseTest {
 //        DriverManager.terminateAppium();
 //        DriverManager.terminateEmulator(udid);
     }
-
 }

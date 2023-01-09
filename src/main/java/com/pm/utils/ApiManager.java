@@ -70,6 +70,19 @@ public class ApiManager {
      * Send data to the API server to create new resource
      *
      * @param target URL to post request
+     * @param body    String to put in the request body
+     */
+    public <T> void postRequestMobile(String target, T body) {
+        response = RestAssured.given()
+                .header(CONTENT_TYPE, ContentType.JSON)
+                .body(body)
+                .post(target);
+    }
+
+    /**
+     * Send data to the API server to create new resource
+     *
+     * @param target URL to post request
      * @param obj    T object to be sent
      * @param header The value of header in the request
      * @param <T>    The type of object
@@ -161,7 +174,7 @@ public class ApiManager {
             }
             LOG.info("Status code of request is: {}", response.statusCode());
             if (response.statusCode() >= StatusCode.BAD_REQUEST.getValue()) {
-                LOG.error("{} => {}", requestSpec.getURI(), response.getStatusLine());
+                LOG.error("{} => {}%n{}", requestSpec.getURI(), response.getStatusLine(), requestSpec.getBody());
             }
             return response;
         }

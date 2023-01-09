@@ -26,5 +26,14 @@ public interface Capabilities extends Config {
     String udid();
 
     @Key("autoGrantPermissions")
-    String autoGrantPermissions();
+    boolean autoGrantPermissions();
+
+    @Key("enableMultiWindows")
+    boolean enableMultiWindows();
+
+    @Key("allowInvisibleElements")
+    boolean allowInvisibleElements();
+
+    @Key("ignoreUnimportantViews")
+    boolean ignoreUnimportantViews();
 }

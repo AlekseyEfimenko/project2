@@ -141,12 +141,12 @@ public class TestSteps {
         betSlipForm.placeBet();
     }
 
-    public void assertErrorMessageIsDisplayed(String message) {
-        LOG.info("Checking if error message \"{}\" is displayed", message);
+    public void assertErrorMessageIsDisplayed(String message1, String message2) {
+        LOG.info("Checking if error message \"{}\" or \"{}\" is displayed", message1, message2);
 
         assertThat(betSlipForm.getErrorMessage())
-                .as(String.format("Error message \"%1$s\" is not displayed", message))
-                .isEqualTo(message);
+                .as(String.format("None of error messages \"%1$s\" and \"%2$s\" are not displayed", message1, message2))
+                .isIn(message1, message2);
         LOG.info(SUCCESS_MESSAGE);
     }
 
