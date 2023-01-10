@@ -1,7 +1,8 @@
 package com.pm.utils;
 
+import static com.pm.temp.Context.TOTAL_ODDS;
+
 import com.codeborne.selenide.SelenideElement;
-import com.pm.temp.Context;
 import com.pm.temp.ScenarioContext;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -115,7 +116,7 @@ public class DataManager {
          */
         totalOdds += .0000001;
 
-        ScenarioContext.setContext(Context.TOTAL_ODDS, Math.round(totalOdds * 10000.0) / 10000.0);
+        ScenarioContext.setContext(TOTAL_ODDS, Math.round(totalOdds * 10000.0) / 10000.0);
         return roundToTwoDecimalPlaces(totalOdds);
     }
 
@@ -129,7 +130,7 @@ public class DataManager {
     public static double calculatePossiblePayout(List<String> odds, double betSum) {
         LOG.info("Calculating possible payout according to the coefficients = {} and bet sum = {}",
                 odds, betSum);
-        return roundToTwoDecimalPlaces((double) ScenarioContext.getContext(Context.TOTAL_ODDS) * betSum);
+        return roundToTwoDecimalPlaces((double) ScenarioContext.getContext(TOTAL_ODDS) * betSum);
     }
 
     /**

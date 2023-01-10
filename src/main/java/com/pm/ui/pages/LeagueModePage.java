@@ -2,12 +2,12 @@ package com.pm.ui.pages;
 
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Condition.interactable;
+import static com.pm.temp.Context.ODDS;
+import static com.pm.temp.ScenarioContext.setContext;
 
 import com.codeborne.selenide.CollectionCondition;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
-import com.pm.temp.Context;
-import com.pm.temp.ScenarioContext;
 import com.pm.utils.BrowserManager;
 import com.pm.utils.DataManager;
 import org.openqa.selenium.By;
@@ -49,7 +49,7 @@ public class LeagueModePage extends Form {
         switchToDefaultIframe();
 
         List<String> odds = new ArrayList<>();
-        ScenarioContext.setContext(Context.ODDS, odds);
+        setContext(ODDS, odds);
 
         DataManager.getRandomList(getListOfMatchDayGames(), quantity).forEach(element -> {
             SelenideElement randomElement = DataManager.getRandomFromList(getListOfAvailableOdds(element));

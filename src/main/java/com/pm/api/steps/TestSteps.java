@@ -2,13 +2,14 @@ package com.pm.api.steps;
 
 import static com.pm.utils.ApiManager.getInstance;
 import static org.assertj.core.api.Assertions.assertThat;
+import static com.pm.api.StatusCode.SUCCESS;
+import static com.pm.api.StatusCode.BAD_REQUEST;
+import static com.pm.temp.Context.TOKEN;
+import static com.pm.temp.ScenarioContext.setContext;
 
 import com.google.gson.JsonObject;
 import com.pm.api.Keys;
-import com.pm.api.StatusCode;
 import com.pm.api.pojo.NewUser;
-import com.pm.temp.Context;
-import com.pm.temp.ScenarioContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,11 +24,11 @@ public class TestSteps {
 
     @SuppressWarnings("all")
     public void assertSuccessStatusCode(int statusCode) {
-        LOG.info("Checking if status code of the request is equals to {}", StatusCode.SUCCESS.getValue());
+        LOG.info("Checking if status code of the request is equals to {}", SUCCESS.getValue());
 
         assertThat(getInstance().getStatusCode() == statusCode)
                 .as(String.format("Expected status code of request is: %1$s, but was found: %2$s",
-                        StatusCode.SUCCESS.getValue(),
+                        SUCCESS.getValue(),
                         getInstance().getStatusCode()))
                 .isTrue();
         LOG.info(SUCCESS_MESSAGE);
@@ -45,7 +46,7 @@ public class TestSteps {
     public void assertTokenIsGenerated(String key) {
         LOG.info("Checking if user token is generated and field \"token\" is not empty");
         String token = getInstance().getValue(key);
-        ScenarioContext.setContext(Context.TOKEN, token);
+        setContext(TOKEN, token);
 
         assertThat(token)
                 .as(String.format("The field %1$s is not found in the response or it has an empty value: %2$s",
@@ -65,11 +66,11 @@ public class TestSteps {
     }
 
     public void assertBadRequestStatusCode(int statusCode) {
-        LOG.info("Checking if status code of the request is equals to {}", StatusCode.BAD_REQUEST.getValue());
+        LOG.info("Checking if status code of the request is equals to {}", BAD_REQUEST.getValue());
 
         assertThat(getInstance().getStatusCode() == statusCode)
                 .as(String.format("Expected status code of request is: %1$s, but was found: %2$s",
-                        StatusCode.BAD_REQUEST.getValue(),
+                        BAD_REQUEST.getValue(),
                         getInstance().getStatusCode()))
                 .isTrue();
         LOG.info(SUCCESS_MESSAGE);

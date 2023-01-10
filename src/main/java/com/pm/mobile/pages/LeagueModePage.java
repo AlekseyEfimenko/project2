@@ -2,9 +2,10 @@ package com.pm.mobile.pages;
 
 import static io.appium.java_client.AppiumBy.xpath;
 import static com.pm.mobile.configuration.Direction.DOWN;
+import static com.pm.temp.Context.ODDS;
+import static com.pm.temp.Context.ELEMENT_LOCATION;
+import static com.pm.temp.ScenarioContext.setContext;
 
-import com.pm.temp.Context;
-import com.pm.temp.ScenarioContext;
 import com.pm.utils.DataManager;
 import com.pm.utils.DriverManager;
 import org.apache.logging.log4j.LogManager;
@@ -51,8 +52,8 @@ public class LeagueModePage extends Form {
             odds.add(odd.getText());
         });
 
-        ScenarioContext.setContext(Context.ELEMENT_LOCATION, location);
-        ScenarioContext.setContext(Context.ODDS, odds);
+        setContext(ELEMENT_LOCATION, location);
+        setContext(ODDS, odds);
     }
 
     private List<WebElement> getMatches() {

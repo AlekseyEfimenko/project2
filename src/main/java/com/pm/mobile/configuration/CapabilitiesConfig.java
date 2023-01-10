@@ -15,9 +15,11 @@ import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION
 import static io.appium.java_client.remote.MobileCapabilityType.UDID;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 import static com.pm.temp.Context.SESSION_ID;
+import static com.pm.utils.FileManager.getCapability;
+import static com.pm.utils.FileManager.getData;
+import static com.pm.temp.ScenarioContext.getContext;
 
 import com.google.gson.JsonObject;
-import com.pm.temp.ScenarioContext;
 import com.pm.utils.ApiManager;
 import com.pm.utils.FileManager;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -31,39 +33,39 @@ public final class CapabilitiesConfig {
     public static DesiredCapabilities getAndroidLocalCapabilities() {
         var capabilities = new DesiredCapabilities();
         capabilities.setCapability(APP, FileManager.getAppLocation());
-        capabilities.setCapability(AVD, FileManager.getCapability().deviceName());
+        capabilities.setCapability(AVD, getCapability().deviceName());
         setAndroidCommonCapabilities(capabilities);
         setCommonCapabilities(capabilities);
         return capabilities;
     }
 
     private static void setCommonCapabilities(DesiredCapabilities capabilities) {
-        capabilities.setCapability(DEVICE_NAME, FileManager.getCapability().deviceName());
-        capabilities.setCapability(PLATFORM_NAME, FileManager.getCapability().platformName());
-        capabilities.setCapability(PLATFORM_VERSION, FileManager.getCapability().platformVersion());
-        capabilities.setCapability(UDID, FileManager.getCapability().udid());
+        capabilities.setCapability(DEVICE_NAME, getCapability().deviceName());
+        capabilities.setCapability(PLATFORM_NAME, getCapability().platformName());
+        capabilities.setCapability(PLATFORM_VERSION, getCapability().platformVersion());
+        capabilities.setCapability(UDID, getCapability().udid());
         capabilities.setCapability(NO_RESET, false);
         capabilities.setCapability(KEEP_DEVICE, true);
-        capabilities.setCapability(NEW_COMMAND_TIMEOUT, FileManager.getData().newCommandTimeout());
-        capabilities.setCapability(AUTO_GRANT_PERMISSIONS, FileManager.getCapability().autoGrantPermissions());
-        capabilities.setCapability(IGNORE_UNIMPORTANT_VIEWS, FileManager.getCapability().ignoreUnimportantViews());
+        capabilities.setCapability(NEW_COMMAND_TIMEOUT, getData().newCommandTimeout());
+        capabilities.setCapability(AUTO_GRANT_PERMISSIONS, getCapability().autoGrantPermissions());
+        capabilities.setCapability(IGNORE_UNIMPORTANT_VIEWS, getCapability().ignoreUnimportantViews());
     }
 
     private static void setAndroidCommonCapabilities(DesiredCapabilities capabilities) {
-        capabilities.setCapability(APP_PACKAGE, FileManager.getCapability().appPackage());
+        capabilities.setCapability(APP_PACKAGE, getCapability().appPackage());
     }
 
     public static void setAppiumCapabilities() {
         JsonObject capabilities = new JsonObject();
-        capabilities.addProperty(ENABLE_MULTI_WINDOWS.getValue(), FileManager.getCapability().enableMultiWindows());
-        capabilities.addProperty(ALLOW_INVISIBLE_ELEMENTS.getValue(), FileManager.getCapability().allowInvisibleElements());
+        capabilities.addProperty(ENABLE_MULTI_WINDOWS.getValue(), getCapability().enableMultiWindows());
+        capabilities.addProperty(ALLOW_INVISIBLE_ELEMENTS.getValue(), getCapability().allowInvisibleElements());
 
         JsonObject settings = new JsonObject();
         settings.add(SETTINGS.getValue(), capabilities);
 
         ApiManager.getInstance()
-                .postRequestMobile(String.format(FileManager.getData().appiumApiPath(),
-                                ScenarioContext.getContext(SESSION_ID)),
+                .postRequestMobile(String.format(getData().appiumApiPath(),
+                                getContext(SESSION_ID)),
                         settings);
     }
 }

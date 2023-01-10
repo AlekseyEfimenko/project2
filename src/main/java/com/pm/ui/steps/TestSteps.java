@@ -1,9 +1,9 @@
 package com.pm.ui.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static com.pm.temp.Context.ODDS;
+import static com.pm.temp.ScenarioContext.getContext;
 
-import com.pm.temp.Context;
-import com.pm.temp.ScenarioContext;
 import com.pm.ui.pages.BetSlipForm;
 import com.pm.ui.pages.LeagueModePage;
 import com.pm.ui.pages.LoginForm;
@@ -78,9 +78,9 @@ public class TestSteps {
     public void assertCorrectOddsAreAdded() {
         LOG.info("Checking if the bet slip contains odds we have added");
 
-        assertThat(betSlipForm.getOdds().containsAll((Collection<?>) ScenarioContext.getContext(Context.ODDS)))
+        assertThat(betSlipForm.getOdds().containsAll((Collection<?>) getContext(ODDS)))
                 .as(String.format("The bets we have added: %1$s%nThe bets was found in the bet slip: %2$s%n",
-                        ScenarioContext.getContext(Context.ODDS).toString(),
+                        getContext(ODDS).toString(),
                         betSlipForm.getOdds().toString()))
                 .isTrue();
         LOG.info(SUCCESS_MESSAGE);
@@ -109,7 +109,7 @@ public class TestSteps {
     @SuppressWarnings("all")
     public void assertTotalOddsIsCorrect() {
         LOG.info("Checking if correct total odds are displayed in the bet slip");
-        double expectedOdds = DataManager.calculateTotalOdds((List<String>) (ScenarioContext.getContext(Context.ODDS)));
+        double expectedOdds = DataManager.calculateTotalOdds((List<String>) (getContext(ODDS)));
         double actualOdds = Double.parseDouble(betSlipForm.getTotalOdds());
 
         assertThat(actualOdds == expectedOdds)
@@ -123,7 +123,7 @@ public class TestSteps {
     public void assertPossibleWinningsIsCorrect(double stake) {
         LOG.info("Checking if possible winnings value is correctly displayed in the bet slip");
         double expectedWinnings = DataManager
-                .calculatePossiblePayout((List<String>) (ScenarioContext.getContext(Context.ODDS)), stake);
+                .calculatePossiblePayout((List<String>) (getContext(ODDS)), stake);
         double actualWinnings = Double.parseDouble(betSlipForm.getPossibleWinnings()
                 .substring(betSlipForm.getPossibleWinnings().indexOf(" ") + 1)
                 .replace(',', '.')

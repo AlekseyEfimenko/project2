@@ -1,6 +1,9 @@
 package com.pm.mobile.steps;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static com.pm.temp.Context.ELEMENT_LOCATION;
+import static com.pm.temp.Context.ODDS;
+import static com.pm.temp.ScenarioContext.getContext;
 
 import com.pm.mobile.pages.BetSlipForm;
 import com.pm.mobile.pages.FooterForm;
@@ -8,8 +11,6 @@ import com.pm.mobile.pages.LeagueModePage;
 import com.pm.mobile.pages.LogInPage;
 import com.pm.mobile.pages.SignUpPage;
 import com.pm.mobile.pages.VirtualSportPage;
-import com.pm.temp.Context;
-import com.pm.temp.ScenarioContext;
 import com.pm.utils.DataManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -96,7 +97,7 @@ public class TestSteps {
     @SuppressWarnings("all")
     public void assertOddsAreHighlighted(String colour) {
         LOG.info("Checking if the odds are highlighted in {} colour", colour);
-        ((List<Point>) ScenarioContext.getContext(Context.ELEMENT_LOCATION)).forEach(element -> {
+        ((List<Point>) getContext(ELEMENT_LOCATION)).forEach(element -> {
             String actualColour = DataManager.getElementColor(element);
             assertThat(actualColour)
                     .as(String.format("Expected colour of the element is: %1$s, but was found: %2$s",
@@ -134,9 +135,9 @@ public class TestSteps {
     public void assertCorrectOddsAreAdded() {
         LOG.info("Checking if the bet slip contains odds we have added");
 
-        assertThat(betSlipForm.getOdds().containsAll((Collection<?>) ScenarioContext.getContext(Context.ODDS)))
+        assertThat(betSlipForm.getOdds().containsAll((Collection<?>) getContext(ODDS)))
                 .as(String.format("The bets we have added: %1$s%nThe bets was found in the bet slip: %2$s%n",
-                        ScenarioContext.getContext(Context.ODDS).toString(),
+                        getContext(ODDS).toString(),
                         betSlipForm.getOdds().toString()))
                 .isTrue();
         LOG.info(SUCCESS_MESSAGE);
@@ -154,7 +155,7 @@ public class TestSteps {
 
     public void assertTotalOddsIsCorrect() {
         LOG.info("Checking if correct total odds are displayed in the bet slip");
-        double expectedOdds = DataManager.calculateTotalOdds((List<String>) (ScenarioContext.getContext(Context.ODDS)));
+        double expectedOdds = DataManager.calculateTotalOdds((List<String>) (getContext(ODDS)));
         double actualOdds = Double.parseDouble(betSlipForm.getTotalOdds());
 
         assertThat(actualOdds == expectedOdds)
@@ -167,7 +168,7 @@ public class TestSteps {
     public void assertPossibleWinningsIsCorrect(double stake) {
         LOG.info("Checking if possible winnings value is correctly displayed in the bet slip");
         double expectedWinnings = DataManager
-                .calculatePossiblePayout((List<String>) (ScenarioContext.getContext(Context.ODDS)), stake);
+                .calculatePossiblePayout((List<String>) (getContext(ODDS)), stake);
         double actualWinnings = Double.parseDouble(betSlipForm.getPossibleWinnings()
                 .substring(betSlipForm.getPossibleWinnings().indexOf(" ") + 1)
                 .replace(',', '.')

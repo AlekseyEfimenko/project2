@@ -35,6 +35,8 @@ public class MobileBaseTest {
         steps.openLeagueMode();
     }
 
+    @Feature("Mobile")
+    @Description("Clearing and closing bet slip")
     @AfterMethod
     public void resetPrecondition() {
         steps.removeAllOddsFromBetSlip();
