@@ -6,7 +6,6 @@ import static io.appium.java_client.AppiumBy.xpath;
 
 import org.openqa.selenium.By;
 
-
 public class LogInPage extends Form {
     public static final By CONTENT_ID = id("com.parimatch:id/rvContentView");
     private static final By SELECT_LOGIN_TYPE_ACC_ID = accessibilityId("Select login type button");

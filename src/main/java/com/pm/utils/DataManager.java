@@ -6,8 +6,13 @@ import com.pm.temp.ScenarioContext;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebElement;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -42,7 +47,6 @@ public class DataManager {
      * @return List of random elements selected from lst
      */
     public static <T> List<T> getRandomList(List<T> lst, int n) {
-        LOG.info("List of matches size is: {}", lst.size());
         int size = Math.min(lst.size(), n);
         List<T> copy = new LinkedList<>(lst);
         Collections.shuffle(copy);
@@ -57,7 +61,6 @@ public class DataManager {
      * @return Random element
      */
     public static <T> T getRandomFromList(List<T> elements) {
-        LOG.info("List of odd in match size is: {}", elements.size());
         return elements.get(new Random().nextInt(elements.size()));
     }
 
@@ -193,5 +196,33 @@ public class DataManager {
      */
     public static <T> List<T> getLastElements(List<T> lst, int number) {
         return lst.subList(lst.size() - number, lst.size());
+    }
+
+    /**
+     * Gets the element background colour and converts it in RGB format
+     *
+     * @param point The coordinates of the element on the screen
+     * @return The String of colour in RGB format
+     */
+    public static String getElementColor(Point point) {
+        LOG.info("Getting the color of the element");
+        File screenshot = DriverManager.takeScreenshot();
+        int xCoordinate = point.getX() + 10;
+        int yCoordinate = point.getY() + 10;
+        int color = 0;
+
+        try {
+            BufferedImage image = ImageIO.read(screenshot);
+            color = image.getRGB(xCoordinate, yCoordinate);
+        } catch (IOException ex) {
+            LOG.error(ex.getMessage());
+        }
+
+        int red = (color >> 16) & 0xFF;
+        int green = (color >> 8) & 0xFF;
+        int blue = (color) & 0xFF;
+        String space = ", ";
+
+        return "rgb(" + red + space + green + space + blue + ")";
     }
 }

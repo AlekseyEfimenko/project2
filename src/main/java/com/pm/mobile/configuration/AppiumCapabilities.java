@@ -1,7 +1,17 @@
 package com.pm.mobile.configuration;
 
-public interface AppiumCapabilities {
-    String ENABLE_MULTI_WINDOWS = "enableMultiWindows";
-    String ALLOW_INVISIBLE_ELEMENTS = "allowInvisibleElements";
-    String SETTINGS = "settings";
+public enum AppiumCapabilities {
+    ENABLE_MULTI_WINDOWS("enableMultiWindows"),
+    ALLOW_INVISIBLE_ELEMENTS("allowInvisibleElements"),
+    SETTINGS("settings");
+
+    private final String value;
+
+    AppiumCapabilities(String value) {
+        this.value = value;
+    }
+
+    public String getValue() {
+        return value;
+    }
 }

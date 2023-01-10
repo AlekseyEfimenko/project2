@@ -1,8 +1,8 @@
 package com.pm.mobile.pages;
 
 import static io.appium.java_client.AppiumBy.xpath;
+import static com.pm.mobile.configuration.Direction.DOWN;
 
-import com.pm.mobile.configuration.Direction;
 import com.pm.temp.Context;
 import com.pm.temp.ScenarioContext;
 import com.pm.utils.DataManager;
@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebElement;
 
@@ -38,16 +39,19 @@ public class LeagueModePage extends Form {
 
     public void addBets(int number) {
         checkTimer();
-        DriverManager.scrollToEnd(Direction.DOWN);
+        DriverManager.scrollToEnd(DOWN);
         List<String> odds = new ArrayList<>();
+        List<Point> location = new ArrayList<>();
 
         DataManager.getRandomList(getMatches(), number).forEach(element -> {
             WebElement odd = DataManager.getRandomFromList(element.findElements(ODD_XPATH));
             odd.click();
             DriverManager.pause(2);
+            location.add(odd.getLocation());
             odds.add(odd.getText());
         });
 
+        ScenarioContext.setContext(Context.ELEMENT_LOCATION, location);
         ScenarioContext.setContext(Context.ODDS, odds);
     }
 
@@ -57,6 +61,7 @@ public class LeagueModePage extends Form {
 
     private void checkTimer() {
         LOG.info("Checking if timer value is not less then {}", MIN_TIMER);
+
         try {
             WebElement timer = DriverManager.getDriver().findElement(TIMER_XPATH);
             int timeLeft = Integer.parseInt(timer.getText());

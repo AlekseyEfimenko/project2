@@ -1,7 +1,6 @@
 package com.pm.mobile.pages;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfElementLocated;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 import static org.openqa.selenium.support.ui.ExpectedConditions.presenceOfAllElementsLocatedBy;
 
 import com.pm.utils.DriverManager;
@@ -41,12 +40,6 @@ public abstract class Form {
     public boolean isElementDisplayed(By locator) {
         LOG.info("Check if element with locator <{}> is displayed", locator);
         return waitForExpectedElement(locator).isDisplayed();
-    }
-
-    public WebElement waitForVisibleElement(By locator) {
-        return waitForElementExplicitly(FileManager.getData().explicitWait(),
-                FileManager.getData().pollingValue(),
-                visibilityOfElementLocated(locator));
     }
 
     public WebElement waitForExpectedElement(By locator) {

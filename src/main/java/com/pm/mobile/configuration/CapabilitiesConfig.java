@@ -28,20 +28,20 @@ public final class CapabilitiesConfig {
     private CapabilitiesConfig() {
     }
 
-    public static DesiredCapabilities getAndroidLocalCapabilities(String udid, String deviceName, String platformVersion) {
+    public static DesiredCapabilities getAndroidLocalCapabilities() {
         var capabilities = new DesiredCapabilities();
         capabilities.setCapability(APP, FileManager.getAppLocation());
-        capabilities.setCapability(AVD, deviceName == null ? FileManager.getCapability().deviceName() : deviceName);
+        capabilities.setCapability(AVD, FileManager.getCapability().deviceName());
         setAndroidCommonCapabilities(capabilities);
-        setCommonCapabilities(capabilities, udid, deviceName, platformVersion);
+        setCommonCapabilities(capabilities);
         return capabilities;
     }
 
-    private static void setCommonCapabilities(DesiredCapabilities capabilities, String udid, String deviceName, String platformVersion) {
-        capabilities.setCapability(DEVICE_NAME, deviceName == null ? FileManager.getCapability().deviceName() : deviceName);
+    private static void setCommonCapabilities(DesiredCapabilities capabilities) {
+        capabilities.setCapability(DEVICE_NAME, FileManager.getCapability().deviceName());
         capabilities.setCapability(PLATFORM_NAME, FileManager.getCapability().platformName());
-        capabilities.setCapability(PLATFORM_VERSION, platformVersion == null ? FileManager.getCapability().platformVersion() : platformVersion);
-        capabilities.setCapability(UDID, udid == null ? FileManager.getCapability().udid() : udid);
+        capabilities.setCapability(PLATFORM_VERSION, FileManager.getCapability().platformVersion());
+        capabilities.setCapability(UDID, FileManager.getCapability().udid());
         capabilities.setCapability(NO_RESET, false);
         capabilities.setCapability(KEEP_DEVICE, true);
         capabilities.setCapability(NEW_COMMAND_TIMEOUT, FileManager.getData().newCommandTimeout());
@@ -55,15 +55,15 @@ public final class CapabilitiesConfig {
 
     public static void setAppiumCapabilities() {
         JsonObject capabilities = new JsonObject();
-        capabilities.addProperty(ENABLE_MULTI_WINDOWS, FileManager.getCapability().enableMultiWindows());
-        capabilities.addProperty(ALLOW_INVISIBLE_ELEMENTS, FileManager.getCapability().allowInvisibleElements());
+        capabilities.addProperty(ENABLE_MULTI_WINDOWS.getValue(), FileManager.getCapability().enableMultiWindows());
+        capabilities.addProperty(ALLOW_INVISIBLE_ELEMENTS.getValue(), FileManager.getCapability().allowInvisibleElements());
 
         JsonObject settings = new JsonObject();
-        settings.add(SETTINGS, capabilities);
+        settings.add(SETTINGS.getValue(), capabilities);
 
         ApiManager.getInstance()
                 .postRequestMobile(String.format(FileManager.getData().appiumApiPath(),
-                        ScenarioContext.getContext(SESSION_ID)),
+                                ScenarioContext.getContext(SESSION_ID)),
                         settings);
     }
 }

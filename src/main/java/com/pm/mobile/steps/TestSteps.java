@@ -1,5 +1,7 @@
 package com.pm.mobile.steps;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.pm.mobile.pages.BetSlipForm;
 import com.pm.mobile.pages.FooterForm;
 import com.pm.mobile.pages.LeagueModePage;
@@ -11,11 +13,10 @@ import com.pm.temp.ScenarioContext;
 import com.pm.utils.DataManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Point;
 
 import java.util.Collection;
 import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestSteps {
     private static final Logger LOG = LogManager.getRootLogger();
@@ -90,6 +91,19 @@ public class TestSteps {
     public void addOddsToBetSlip(int quantity) {
         LOG.info("Adding random {} odds to the bet slip from the available match day odds", quantity);
         leagueModePage.addBets(quantity);
+    }
+
+    @SuppressWarnings("all")
+    public void assertOddsAreHighlighted(String colour) {
+        LOG.info("Checking if the odds are highlighted in {} colour", colour);
+        ((List<Point>) ScenarioContext.getContext(Context.ELEMENT_LOCATION)).forEach(element -> {
+            String actualColour = DataManager.getElementColor(element);
+            assertThat(actualColour)
+                    .as(String.format("Expected colour of the element is: %1$s, but was found: %2$s",
+                            colour, actualColour))
+                    .isEqualTo(colour);
+        });
+        LOG.info(SUCCESS_MESSAGE);
     }
 
     public void navigateToBetSlip() {

@@ -12,9 +12,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.events.EventFiringDecorator;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
@@ -29,11 +32,11 @@ public final class DriverManager {
     private DriverManager() {
     }
 
-    public static void createDriver(String udid, String deviceName, String platformVersion) {
+    public static void createDriver() {
         AppiumDriver driver = null;
         try {
             driver = new AndroidDriver(new URL(LOCAL_PATH),
-                    CapabilitiesConfig.getAndroidLocalCapabilities(udid, deviceName, platformVersion));
+                    CapabilitiesConfig.getAndroidLocalCapabilities());
             ScenarioContext.setContext(SESSION_ID, driver.getSessionId().toString());
             CapabilitiesConfig.setAppiumCapabilities();
         } catch (MalformedURLException ex) {
@@ -57,10 +60,10 @@ public final class DriverManager {
         });
     }
 
-    public static boolean scroll(Direction direction) {
+    public static void scroll(Direction direction) {
         LOG.info("Scrolling {}", direction);
         Dimension dmn = getDriver().manage().window().getSize();
-        return (Boolean) ((JavascriptExecutor) getDriver()).executeScript("mobile: scrollGesture", Map.of(
+        ((JavascriptExecutor) getDriver()).executeScript("mobile: scrollGesture", Map.of(
                 "left", dmn.width / 2, "top", dmn.height / 2,
                 "width", dmn.width / 4, "height", dmn.height / 4,
                 "direction", direction.getValue(),
@@ -69,12 +72,10 @@ public final class DriverManager {
     }
 
     public static void scrollToEnd(Direction direction) {
-        boolean scroll;
-        do {
-            scroll(direction);
-            scroll(direction);
-            scroll = scroll(direction);
-        } while (scroll);
+        scroll(direction);
+        scroll(direction);
+        scroll(direction);
+        scroll(direction);
     }
 
     public static void pause(int seconds) {
@@ -87,5 +88,9 @@ public final class DriverManager {
             LOG.error(e.getMessage());
             Thread.currentThread().interrupt();
         }
+    }
+
+    public static File takeScreenshot() {
+        return ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
     }
 }
