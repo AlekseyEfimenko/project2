@@ -66,7 +66,7 @@ public class UITest extends UIBaseTest {
         steps.selectSystemCategory();
         steps.assertSystemIsUnderlinedWithYellow(colour);
 
-        steps.setStake(STAKE);
+        steps.setSystemStake(STAKE);
         steps.acceptBet();
         steps.assertErrorMessageIsDisplayed(message1, message2);
     }
