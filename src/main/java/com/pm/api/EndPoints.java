@@ -5,7 +5,9 @@ package com.pm.api;
  */
 public enum EndPoints {
     REGISTRATION("/api/v3/registration/byform"),
-    UPDATE_PASSWORD("/api/user/updatepassword");
+    UPDATE_PASSWORD("/api/user/updatepassword"),
+    LOGIN("/api/v2/routinglogin");
+
     private final String value;
 
     EndPoints(String value) {
