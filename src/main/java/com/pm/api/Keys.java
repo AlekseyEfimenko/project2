@@ -5,7 +5,9 @@ package com.pm.api;
  */
 public enum Keys {
     OLD_PASSWORD("oldPassword"),
-    NEW_PASSWORD("newPassword");
+    NEW_PASSWORD("newPassword"),
+    LOGIN("login"),
+    PASSWORD("password");
 
     private final String value;
 
