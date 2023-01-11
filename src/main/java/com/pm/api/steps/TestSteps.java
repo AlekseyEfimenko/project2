@@ -1,5 +1,6 @@
 package com.pm.api.steps;
 
+import static com.pm.api.StatusCode.FORBIDDEN;
 import static com.pm.utils.ApiManager.getInstance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static com.pm.api.StatusCode.SUCCESS;
@@ -82,6 +83,26 @@ public class TestSteps {
         assertThat(getInstance().getBody())
                 .as(String.format("Response body dosn't contain description message: \"%1$s\"", message))
                 .contains(message);
+        LOG.info(SUCCESS_MESSAGE);
+    }
+
+    public void login(String userLogin, String userPassword, String target){
+        LOG.info("Login user");
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(Keys.LOGIN.getValue(), userLogin);
+        jsonObject.addProperty(Keys.PASSWORD.getValue(), userPassword);
+        String body = jsonObject.toString();
+        getInstance().postRequest(target, body);
+    }
+
+    public void assertForbiddenStatusCode(int statusCode) {
+        LOG.info("Checking if status code of the request is equals to {}", FORBIDDEN.getValue());
+
+        assertThat(getInstance().getStatusCode() == statusCode)
+            .as(String.format("Expected status code of request is: %1$s, but was found: %2$s",
+                FORBIDDEN.getValue(),
+                getInstance().getStatusCode()))
+            .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
 }
