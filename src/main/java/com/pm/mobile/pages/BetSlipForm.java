@@ -30,6 +30,8 @@ public class BetSlipForm extends Form {
             xpath("//*[@resource-id = 'betslip']//android.widget.ListView//following-sibling::android.widget.Button");
     private static final By EXIT_BET_SLIP_XPATH =
             xpath("//*[@resource-id = 'sr-bs-show-history']//following-sibling::android.widget.Button");
+    private static final By SYSTEM_XPATH =
+        xpath("(//*[@resource-id = 'betslip']//android.widget.ListView/parent::*//android.widget.Button)[3]");
 
     public BetSlipForm() {
         super(BET_SLIP_XPATH, "Bet slip form");
@@ -86,4 +88,8 @@ public class BetSlipForm extends Form {
     public int getNumberOfBets() {
         return waitForExpectedElements(ODD_XPATH).size();
     }
+    public void selectSystem() {
+        waitForExpectedElement(SYSTEM_XPATH).click();
+    }
+
 }

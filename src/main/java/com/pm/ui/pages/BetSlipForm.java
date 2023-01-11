@@ -31,7 +31,11 @@ public class BetSlipForm extends Form {
             MULTI_BUTTON_CSS);
     private static final String CLICK_SCRIPT = "arguments[0].click();";
     private static final String SCROLL_SCRIPT = "arguments[0].scrollIntoView();";
-
+    private static final By SYSTEM_XPATH = By.xpath("//*[@class ='sr-bs-systems-nav']/button[contains(text(), \"System\")]");
+    private static final String SYSTEM_BUTTON_CSS = ".sr-bs-systems-nav__button--active";
+    private static final String GET_AFTER_SCRIPT_SYSTEM = String.format(
+        "return window.getComputedStyle(document.querySelector('%1$s'),':after').getPropertyValue('background-color');",
+        SYSTEM_BUTTON_CSS);
 
     public BetSlipForm() {
         super(BET_SLIP_ID, "Bets slip form");
@@ -84,5 +88,13 @@ public class BetSlipForm extends Form {
 
     public int getNumberOfBets() {
         return $$(BET_CSS).size();
+    }
+
+    public void selectSystem() {
+        BrowserManager.executeScript(CLICK_SCRIPT, waitForElement(SYSTEM_XPATH));
+    }
+
+    public String getSystemUnderlineColor() {
+        return BrowserManager.executeScript(GET_AFTER_SCRIPT_SYSTEM);
     }
 }
