@@ -227,4 +227,9 @@ public class TestSteps {
         LOG.info("Selecting the category \"System\" in the bet slip");
         betSlipForm.selectSystem();
     }
+
+    public void setSystemStake(double stake) {
+        LOG.info("Setting ticket stake to {}", stake);
+        betSlipForm.setSystemStake(String.valueOf(stake).replace('.', ','));
+    }
 }
