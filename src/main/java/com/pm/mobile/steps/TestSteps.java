@@ -222,4 +222,9 @@ public class TestSteps {
                 .isEqualTo(numOfBets);
         LOG.info(SUCCESS_MESSAGE);
     }
+
+    public void selectSystemCategory() {
+        LOG.info("Selecting the category \"System\" in the bet slip");
+        betSlipForm.selectSystem();
+    }
 }
