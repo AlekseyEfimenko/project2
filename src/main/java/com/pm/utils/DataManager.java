@@ -226,4 +226,19 @@ public class DataManager {
 
         return "rgb(" + red + space + green + space + blue + ")";
     }
+
+    /**
+     * Calculates possible payout for the bet
+     *
+     * @param odds   List of coefficients in the parlay
+     * @param betSum Bet sum
+     * @return Possible payout
+     */
+    public static double calculatePossibleSystemPayout(List<String> odds, double betSum) {
+        LOG.info("Calculating possible system payout according to the coefficients = {} and bet sum = {}",
+            odds, betSum);
+        return roundToTwoDecimalPlaces((double) ScenarioContext.getContext(TOTAL_ODDS) * betSum);
+    }
+
+
 }
