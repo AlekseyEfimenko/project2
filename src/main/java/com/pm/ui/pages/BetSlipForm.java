@@ -16,6 +16,7 @@ public class BetSlipForm extends Form {
     private static final By MULTI_XPATH =
             By.xpath("//*[@class ='sr-bs-systems-nav']/button[contains(text(), \"Multi\")]");
     private static final By TICKET_STAKE_ID = By.id("multi");
+    private static final By SYSTEM_TICKET_STAKE_ID = By.id("2/3");
     private static final By TOTAL_ODDS_XPATH =
             By.xpath("//*[@class = 'sr-bs-footer__information']//span[@class = 'sr-bs-currency-value']");
     private static final By POSSIBLE_WINNNINGS_XPATH =
@@ -97,4 +98,9 @@ public class BetSlipForm extends Form {
     public String getSystemUnderlineColor() {
         return BrowserManager.executeScript(GET_AFTER_SCRIPT_SYSTEM);
     }
+
+    public void setSystemStake(String stake) {
+        waitForElement(SYSTEM_TICKET_STAKE_ID).setValue(stake);
+    }
+
 }
