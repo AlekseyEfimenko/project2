@@ -2,6 +2,7 @@ package com.pm.api.test;
 
 import static com.pm.api.StatusCode.SUCCESS;
 import static com.pm.api.StatusCode.BAD_REQUEST;
+import static com.pm.api.StatusCode.UNAUTHORIZED;
 import static com.pm.temp.Context.TOKEN;
 import static com.pm.temp.ScenarioContext.getContext;
 
@@ -27,6 +28,7 @@ public class ApiTest {
     protected TestSteps steps = new TestSteps();
     private static final String LOGIN = EndPoints.LOGIN.getValue();
     private static final String NOT_MATCHING_PASSWORD = DataManager.generatePassword(10);
+    private static final String INVALID_TOKEN = DataManager.getRandomString(15);
 
     @Feature("API")
     @Description("Registering new user")
@@ -65,12 +67,20 @@ public class ApiTest {
     }
 
     @Feature("API")
-    @Description("Change user password using not mathcing old password")
+    @Description("Change user password using not matching old password")
     @Test(dependsOnMethods = {"registerNewUser"})
     public void changePasswordUsingNotMatchingOldPassword(){
         steps.changePassword(NOT_MATCHING_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, (String) getContext(TOKEN));
         steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
         steps.assertBodyIsNotEmpty(EMPTY_BODY);
+    }
+
+    @Feature("API")
+    @Description("Change user password using invalid token")
+    @Test(dependsOnMethods = {"registerNewUser"})
+    public void changePasswordUsingInvalidToken(){
+        steps.changePassword(USER_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD,INVALID_TOKEN);
+        steps.assertUnauthorizedStatusCode(UNAUTHORIZED.getValue());
     }
 
 }
