@@ -204,4 +204,8 @@ public class TestSteps {
             .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
+    public void setSystemStake(double stake) {
+        LOG.info("Setting system ticket stake to {}", stake);
+        betSlipForm.setSystemStake(String.valueOf(stake).replace('.', ','));
+    }
 }
