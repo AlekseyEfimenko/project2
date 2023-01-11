@@ -11,6 +11,7 @@
         <parameter name="errorMessageMobile2" value="Ставка отклонена сервером"/>
         <parameter name="betsToAdd" value="5"/>
         <parameter name="betsToRemove" value="3"/>
+        <parameter name="systemOdd_quantity" value="3"/>
         <classes>
             <class name="com.pm.api.test.ApiTest"/>
             <class name="com.pm.ui.test.UITest"/>
