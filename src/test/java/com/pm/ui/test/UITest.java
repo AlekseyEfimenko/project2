@@ -50,4 +50,23 @@ public class UITest extends UIBaseTest {
         steps.assertCorrectQuantityInBetSlip(add - remove);
         steps.assertBetSlipContainsNumOfBets(add - remove);
     }
+
+    @Feature("Desktop")
+    @Description("Placing system bet")
+    @Parameters({"systemOdd_quantity", "colour", "errorMessage1", "errorMessage2"})
+    @Test
+    public void testSystem23Bet(int quantity, String colour, String message1, String message2){
+        steps.assertLeagueModePageIsOpened();
+        steps.selectMatchDay();
+        steps.addOddsToBetSlip(quantity);
+        steps.assertCorrectQuantityInBetSlip(quantity);
+        steps.assertCorrectOddsAreAdded();
+
+        steps.selectSystemCategory();
+        steps.assertSystemIsUnderlinedWithYellow(colour);
+
+        steps.setStake(STAKE);
+        steps.acceptBet();
+        steps.assertErrorMessageIsDisplayed(message1, message2);
+    }
 }
