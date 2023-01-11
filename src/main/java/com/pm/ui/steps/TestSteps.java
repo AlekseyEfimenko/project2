@@ -172,4 +172,36 @@ public class TestSteps {
                 .isEqualTo(numOfBets);
         LOG.info(SUCCESS_MESSAGE);
     }
+
+    public void selectSystemCategory(){
+        LOG.info("Selecting the category \"System2/3\" in the bet slip");
+        betSlipForm.selectSystem();
+    }
+
+    public void assertSystemIsUnderlinedWithYellow(String colour) {
+        LOG.info("Checking if the \"System\" link is underlined in yellow colour");
+        String actualColor = betSlipForm.getSystemUnderlineColor();
+
+        assertThat(actualColor.equals(colour))
+            .as("The \"System\" link is not underlined in yellow colour")
+            .isTrue();
+        LOG.info(SUCCESS_MESSAGE);
+    }
+
+
+    public void assertPossibleSystemWinningsIsCorrect(double stake) {
+        LOG.info("Checking if possible winnings value is correctly displayed in the bet slip");
+        double expectedWinnings = DataManager
+            .calculatePossibleSystemPayout((List<String>) (getContext(ODDS)), stake);
+        double actualWinnings = Double.parseDouble(betSlipForm.getPossibleWinnings()
+            .substring(betSlipForm.getPossibleWinnings().indexOf(" ") + 1)
+            .replace(',', '.')
+            .replace(" ", ""));
+
+        assertThat(actualWinnings == expectedWinnings)
+            .as(String.format("Expected possible winnings in the bet slip is: %1$s, but was found: %2$s",
+                expectedWinnings, actualWinnings))
+            .isTrue();
+        LOG.info(SUCCESS_MESSAGE);
+    }
 }
