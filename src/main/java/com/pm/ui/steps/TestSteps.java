@@ -105,6 +105,10 @@ public class TestSteps {
         LOG.info("Setting ticket stake to {}", stake);
         betSlipForm.setStake(String.valueOf(stake).replace('.', ','));
     }
+    public void setSinglesStake(double stake) {
+        LOG.info("Setting ticket stake to {}", stake);
+        betSlipForm.setSinglesStake(String.valueOf(stake).replace('.', ','));
+    }
 
     @SuppressWarnings("all")
     public void assertTotalOddsIsCorrect() {
@@ -154,6 +158,10 @@ public class TestSteps {
         LOG.info("Removing all odds from the bet slip");
         betSlipForm.clearBetSlip();
     }
+    public void removeSinglesOddsFromBetSlip() {
+        LOG.info("Removing odd from the bet slip");
+        betSlipForm.clearOneOdd();
+    }
 
     public void removeBetsFromBetSlip(int numToRemove) {
         LOG.info("Removing random {} bets from the bet slip", numToRemove);
@@ -170,6 +178,12 @@ public class TestSteps {
                         numOfBets,
                         betSlipForm.getNumberOfBets()))
                 .isEqualTo(numOfBets);
+        LOG.info(SUCCESS_MESSAGE);
+    }
+    public void checkBetButtonDisabled() {
+        LOG.info("Checking if button is disabled");
+        assertThat(betSlipForm.getButtonState()==false)
+                .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
 

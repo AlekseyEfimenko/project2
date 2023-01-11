@@ -10,6 +10,7 @@ public class UITest extends UIBaseTest {
     private static final double MIN_STAKE = 10.0;
     private static final double MAX_STAKE = 20000.0;
     private static final double STAKE = DataManager.getRandomNumber(MIN_STAKE, MAX_STAKE);
+    private static final double STAKE_BELOW_LIMIT = MIN_STAKE-0.01;
 
     @Feature("Desktop")
     @Description("Placing multi bet")
@@ -68,5 +69,22 @@ public class UITest extends UIBaseTest {
         steps.setStake(STAKE);
         steps.acceptBet();
         steps.assertErrorMessageIsDisplayed(message1, message2);
+    }
+
+    @Feature("Desktop")
+    @Description("Make a bet less than 10 UAH")
+    @Parameters({"multiOdd_quantity"})
+    @Test
+    public void makeBetLess10UAH(int number) {
+        steps.assertLeagueModePageIsOpened();
+
+        steps.selectMatchDay();
+        steps.addOddsToBetSlip(number);
+        steps.assertCorrectQuantityInBetSlip(number);
+        steps.assertCorrectOddsAreAdded();
+
+        steps.setSinglesStake(STAKE_BELOW_LIMIT);
+        steps.checkBetButtonDisabled();
+
     }
 }
