@@ -6,6 +6,7 @@ import static com.pm.temp.Context.TOKEN;
 import static com.pm.temp.ScenarioContext.getContext;
 
 import com.pm.api.EndPoints;
+import com.pm.api.StatusCode;
 import com.pm.api.pojo.NewUser;
 import com.pm.api.steps.TestSteps;
 import com.pm.utils.DataManager;
@@ -24,6 +25,8 @@ public class ApiTest {
     private static final String TOKEN_KEY = "token";
     private static final String DESCRIPTION_MESSAGE = "Email and Currency pair is already used.";
     protected TestSteps steps = new TestSteps();
+    private static final String LOGIN = EndPoints.LOGIN.getValue();
+    private static final String NOT_MATCHING_PASSWORD = DataManager.generatePassword(10);
 
     @Feature("API")
     @Description("Registering new user")
@@ -51,4 +54,23 @@ public class ApiTest {
         steps.changePassword(USER_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, (String) getContext(TOKEN));
         steps.assertSuccessStatusCode(SUCCESS.getValue());
     }
+
+    @Feature("API")
+    @Description("Login user using Email")
+    @Test(dependsOnMethods = "registerNewUser")
+    public void loginUsingEmail(){
+        steps.login(USER_EMAIL, USER_PASSWORD, LOGIN);
+        steps.assertForbiddenStatusCode(StatusCode.FORBIDDEN.getValue());
+        steps.assertBodyIsNotEmpty(EMPTY_BODY);
+    }
+
+    @Feature("API")
+    @Description("Change user password using not mathcing old password")
+    @Test(dependsOnMethods = {"registerNewUser"})
+    public void changePasswordUsingNotMatchingOldPassword(){
+        steps.changePassword(NOT_MATCHING_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, (String) getContext(TOKEN));
+        steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
+        steps.assertBodyIsNotEmpty(EMPTY_BODY);
+    }
+
 }
