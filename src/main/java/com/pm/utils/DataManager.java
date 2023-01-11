@@ -1,12 +1,19 @@
 package com.pm.utils;
 
+import static com.pm.temp.Context.TOTAL_ODDS;
+
 import com.codeborne.selenide.SelenideElement;
-import com.pm.temp.Context;
 import com.pm.temp.ScenarioContext;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.WebElement;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -81,6 +88,18 @@ public class DataManager {
     }
 
     /**
+     * Gets text from the element and puts it to the List
+     *
+     * @param elements The element to get text from
+     * @return The list of texts in all elements
+     */
+    public static List<String> getListOfTextsMobile(List<WebElement> elements) {
+        List<String> odds = new ArrayList<>();
+        elements.forEach(element -> odds.add(element.getText()));
+        return odds;
+    }
+
+    /**
      * Calculates total coefficient of the parlay mode
      *
      * @param odds List of coefficients in the parlay
@@ -97,7 +116,7 @@ public class DataManager {
          */
         totalOdds += .0000001;
 
-        ScenarioContext.setContext(Context.TOTAL_ODDS, Math.round(totalOdds * 10000.0) / 10000.0);
+        ScenarioContext.setContext(TOTAL_ODDS, Math.round(totalOdds * 10000.0) / 10000.0);
         return roundToTwoDecimalPlaces(totalOdds);
     }
 
@@ -111,7 +130,7 @@ public class DataManager {
     public static double calculatePossiblePayout(List<String> odds, double betSum) {
         LOG.info("Calculating possible payout according to the coefficients = {} and bet sum = {}",
                 odds, betSum);
-        return roundToTwoDecimalPlaces((double) ScenarioContext.getContext(Context.TOTAL_ODDS) * betSum);
+        return roundToTwoDecimalPlaces((double) ScenarioContext.getContext(TOTAL_ODDS) * betSum);
     }
 
     /**
@@ -168,5 +187,43 @@ public class DataManager {
                 getRandomNumber(length / 2 - 1),
                 getRandomString(1).toUpperCase(),
                 RandomStringUtils.random(1, 33, 47, false, false));
+    }
+
+    /**
+     * Gets last n elements from the list
+     *
+     * @param number Number of last elements to get
+     * @return List? contains last n elements
+     */
+    public static <T> List<T> getLastElements(List<T> lst, int number) {
+        return lst.subList(lst.size() - number, lst.size());
+    }
+
+    /**
+     * Gets the element background colour and converts it in RGB format
+     *
+     * @param point The coordinates of the element on the screen
+     * @return The String of colour in RGB format
+     */
+    public static String getElementColor(Point point) {
+        LOG.info("Getting the color of the element");
+        File screenshot = DriverManager.takeScreenshot();
+        int xCoordinate = point.getX() + 10;
+        int yCoordinate = point.getY() + 10;
+        int color = 0;
+
+        try {
+            BufferedImage image = ImageIO.read(screenshot);
+            color = image.getRGB(xCoordinate, yCoordinate);
+        } catch (IOException ex) {
+            LOG.error(ex.getMessage());
+        }
+
+        int red = (color >> 16) & 0xFF;
+        int green = (color >> 8) & 0xFF;
+        int blue = (color) & 0xFF;
+        String space = ", ";
+
+        return "rgb(" + red + space + green + space + blue + ")";
     }
 }

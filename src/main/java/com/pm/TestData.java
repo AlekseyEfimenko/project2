@@ -40,4 +40,13 @@ public interface TestData extends Config {
 
     @Key("selenideTimeout")
     long selenideTimeout();
+
+    @Key("appium.api.path")
+    String appiumApiPath();
+
+    @Key("user-agent")
+    String userAgent();
+
+    @Key("browserSize")
+    String browserSize();
 }

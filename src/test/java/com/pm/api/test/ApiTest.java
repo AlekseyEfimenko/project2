@@ -1,11 +1,13 @@
 package com.pm.api.test;
 
+import static com.pm.api.StatusCode.SUCCESS;
+import static com.pm.api.StatusCode.BAD_REQUEST;
+import static com.pm.temp.Context.TOKEN;
+import static com.pm.temp.ScenarioContext.getContext;
+
 import com.pm.api.EndPoints;
-import com.pm.api.StatusCode;
 import com.pm.api.pojo.NewUser;
 import com.pm.api.steps.TestSteps;
-import com.pm.temp.Context;
-import com.pm.temp.ScenarioContext;
 import com.pm.utils.DataManager;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -28,7 +30,7 @@ public class ApiTest {
     @Test
     public void registerNewUser() {
         steps.registerNewUser(new NewUser(USER_PHONE, USER_EMAIL, USER_PASSWORD), REGISTER_NEW_USER);
-        steps.assertSuccessStatusCode(StatusCode.SUCCESS.getValue());
+        steps.assertSuccessStatusCode(SUCCESS.getValue());
         steps.assertBodyIsNotEmpty(EMPTY_BODY);
         steps.assertTokenIsGenerated(TOKEN_KEY);
     }
@@ -38,7 +40,7 @@ public class ApiTest {
     @Test(dependsOnMethods = {"registerNewUser"})
     public void registerSameUser() {
         steps.registerNewUser(new NewUser(USER_PHONE, USER_EMAIL, USER_PASSWORD), REGISTER_NEW_USER);
-        steps.assertBadRequestStatusCode(StatusCode.BAD_REQUEST.getValue());
+        steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
         steps.assertErrorMessage(DESCRIPTION_MESSAGE);
     }
 
@@ -46,7 +48,7 @@ public class ApiTest {
     @Description("Changing current password to new password")
     @Test(dependsOnMethods = {"registerSameUser"})
     public void changePassword() {
-        steps.changePassword(USER_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, (String) ScenarioContext.getContext(Context.TOKEN));
-        steps.assertSuccessStatusCode(StatusCode.SUCCESS.getValue());
+        steps.changePassword(USER_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, (String) getContext(TOKEN));
+        steps.assertSuccessStatusCode(SUCCESS.getValue());
     }
 }

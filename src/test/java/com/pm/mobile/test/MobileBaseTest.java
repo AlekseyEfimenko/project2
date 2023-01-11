@@ -2,29 +2,49 @@ package com.pm.mobile.test;
 
 import com.pm.mobile.steps.TestSteps;
 import com.pm.utils.DriverManager;
+import io.qameta.allure.Description;
+import io.qameta.allure.Feature;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters;
-
 
 public class MobileBaseTest {
+    private static final String EMAIL = System.getProperty("email");
+    private static final String PASSWORD = System.getProperty("password");
     protected TestSteps steps = new TestSteps();
 
     @BeforeTest(alwaysRun = true)
-    @Parameters({"UDID", "DeviceName", "PlatformVersion"})
-    public void setupSession(@Optional String udid,
-                             @Optional String deviceName,
-                             @Optional String platformVersion) {
-        DriverManager.createDriver(udid, deviceName, platformVersion);
+    public void setupSession() {
+        DriverManager.createDriver();
+    }
+
+    @Feature("Mobile")
+    @Description("Logging in to the app and opening \"League Mode\" page")
+    @BeforeClass
+    public void setPrecondition() {
+        steps.enterLogInPage();
+        steps.assertLoginPageIsOpened();
+
+        steps.logIn(EMAIL, PASSWORD);
+        steps.assertFooterFormIsOpened();
+
+        steps.navigateToVirtualSpor();
+        steps.assertVirtualSportPageIsOpened();
+
+        steps.openLeagueMode();
+    }
+
+    @Feature("Mobile")
+    @Description("Clearing and closing bet slip")
+    @AfterMethod
+    public void resetPrecondition() {
+        steps.removeAllOddsFromBetSlip();
+        steps.closeBetSlip();
     }
 
     @AfterTest(alwaysRun = true)
-    @Parameters("UDID")
-    public void closeSession(@Optional String udid) {
+    public void closeSession() {
         DriverManager.terminateDriver();
-//        DriverManager.terminateAppium();
-//        DriverManager.terminateEmulator(udid);
     }
-
 }
