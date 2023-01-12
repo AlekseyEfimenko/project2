@@ -32,7 +32,7 @@ public class ApiTest {
     private static final String NOT_MATCHING_PASSWORD = DataManager.generatePassword(10);
     private static final String INVALID_TOKEN = DataManager.getRandomString(15);
     private static final String INVALID_PHONE_NUMBER = DataManager.getRandomString(7);
-    private static final String INVALID_USER_EMAIL =DataManager.getRandomString(10);
+    private static final String INVALID_USER_EMAIL = DataManager.getRandomString(10);
 
     @Feature("API")
     @Description("Registering new user")
