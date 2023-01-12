@@ -7,7 +7,6 @@ import static com.pm.temp.Context.TOKEN;
 import static com.pm.temp.ScenarioContext.getContext;
 
 import com.pm.api.EndPoints;
-import com.pm.api.StatusCode;
 import com.pm.api.pojo.NewUser;
 import com.pm.api.steps.TestSteps;
 import com.pm.utils.DataManager;
@@ -66,6 +65,7 @@ public class ApiTest {
         steps.registerNewUser(new NewUser(USER_PHONE, INVALID_USER_EMAIL, USER_PASSWORD), REGISTER_NEW_USER);
         steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
     }
+
     @Feature("API")
     @Description("Changing current password to new password")
     @Test(dependsOnMethods = {"registerSameUser"})
@@ -73,6 +73,7 @@ public class ApiTest {
         steps.changePassword(USER_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, (String) getContext(TOKEN));
         steps.assertSuccessStatusCode(SUCCESS.getValue());
     }
+
     @Feature("API")
     @Description("Change user password using not matching old password")
     @Test(dependsOnMethods = {"registerNewUser"})

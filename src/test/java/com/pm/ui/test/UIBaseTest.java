@@ -22,7 +22,6 @@ public class UIBaseTest {
     @BeforeTest
     public void setUp() {
         WebDriverRunner.addListener(new EventLogListener());
-//        Configuration.browser = System.getProperty("browser");
         Configuration.timeout = getData().selenideTimeout();
         Configuration.browserSize = getData().browserSize();
         System.setProperty(CHROME_OPTIONS_ARGS.getValue(), getData().userAgent());
@@ -44,7 +43,7 @@ public class UIBaseTest {
     @AfterMethod
     public void resetPrecondition() {
         steps.removeAllOddsFromBetSlip();
+        BrowserManager.exitFrame();
         BrowserManager.clearAllCookies();
-        BrowserManager.refreshThePage();
     }
 }

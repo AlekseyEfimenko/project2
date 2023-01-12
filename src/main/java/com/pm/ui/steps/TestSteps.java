@@ -18,7 +18,7 @@ import java.util.List;
 public class TestSteps {
     private static final Logger LOG = LogManager.getRootLogger();
     private static final String CHECK_PAGE_MESSAGE = "Checking if {} is opened";
-    private static final String ERROR_MESSAGE = "The {} is not opened";
+    private static final String ERROR_MESSAGE = "The %1$s is not opened";
     private static final String SUCCESS_MESSAGE = String.format("%1$s  SUCCESS  %1$s%n%n", "=".repeat(50));
     private final MessageForm messageForm = new MessageForm();
     private final LeagueModePage leagueModePage = new LeagueModePage();
@@ -34,7 +34,7 @@ public class TestSteps {
         LOG.info(CHECK_PAGE_MESSAGE, loginForm.getName());
 
         assertThat(loginForm.isDisplayed())
-                .as(ERROR_MESSAGE, loginForm.getName())
+                .as(String.format(ERROR_MESSAGE, loginForm.getName()))
                 .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
@@ -48,13 +48,13 @@ public class TestSteps {
         LOG.info(CHECK_PAGE_MESSAGE, leagueModePage.getName());
 
         assertThat(leagueModePage.isDisplayed())
-                .as(ERROR_MESSAGE, leagueModePage.getName())
+                .as(String.format(ERROR_MESSAGE, leagueModePage.getName()))
                 .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
 
     public void selectMatchDay() {
-        LOG.info("Selecting the next match day");
+        LOG.info("Selecting the next match day if not selected");
         leagueModePage.selectNextMatchDay();
     }
 
@@ -105,6 +105,7 @@ public class TestSteps {
         LOG.info("Setting ticket stake to {}", stake);
         betSlipForm.setStake(String.valueOf(stake).replace('.', ','));
     }
+
     public void setSinglesStake(double stake) {
         LOG.info("Setting ticket stake to {}", stake);
         betSlipForm.setSinglesStake(String.valueOf(stake).replace('.', ','));
@@ -158,6 +159,7 @@ public class TestSteps {
         LOG.info("Removing all odds from the bet slip");
         betSlipForm.clearBetSlip();
     }
+
     public void removeSinglesOddsFromBetSlip() {
         LOG.info("Removing odd from the bet slip");
         betSlipForm.clearOneOdd();
@@ -180,14 +182,15 @@ public class TestSteps {
                 .isEqualTo(numOfBets);
         LOG.info(SUCCESS_MESSAGE);
     }
+
     public void checkBetButtonDisabled() {
         LOG.info("Checking if button is disabled");
-        assertThat(betSlipForm.getButtonState()==false)
+        assertThat(!betSlipForm.getButtonState())
                 .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
 
-    public void selectSystemCategory(){
+    public void selectSystemCategory() {
         LOG.info("Selecting the category \"System2/3\" in the bet slip");
         betSlipForm.selectSystem();
     }
@@ -197,8 +200,8 @@ public class TestSteps {
         String actualColor = betSlipForm.getSystemUnderlineColor();
 
         assertThat(actualColor.equals(colour))
-            .as("The \"System\" link is not underlined in yellow colour")
-            .isTrue();
+                .as("The \"System\" link is not underlined in yellow colour")
+                .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
 
@@ -206,18 +209,19 @@ public class TestSteps {
     public void assertPossibleSystemWinningsIsCorrect(double stake) {
         LOG.info("Checking if possible winnings value is correctly displayed in the bet slip");
         double expectedWinnings = DataManager
-            .calculatePossibleSystemPayout((List<String>) (getContext(ODDS)), stake);
+                .calculatePossibleSystemPayout((List<String>) (getContext(ODDS)), stake);
         double actualWinnings = Double.parseDouble(betSlipForm.getPossibleWinnings()
-            .substring(betSlipForm.getPossibleWinnings().indexOf(" ") + 1)
-            .replace(',', '.')
-            .replace(" ", ""));
+                .substring(betSlipForm.getPossibleWinnings().indexOf(" ") + 1)
+                .replace(',', '.')
+                .replace(" ", ""));
 
         assertThat(actualWinnings == expectedWinnings)
-            .as(String.format("Expected possible winnings in the bet slip is: %1$s, but was found: %2$s",
-                expectedWinnings, actualWinnings))
-            .isTrue();
+                .as(String.format("Expected possible winnings in the bet slip is: %1$s, but was found: %2$s",
+                        expectedWinnings, actualWinnings))
+                .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
+
     public void setSystemStake(double stake) {
         LOG.info("Setting system ticket stake to {}", stake);
         betSlipForm.setSystemStake(String.valueOf(stake).replace('.', ','));
