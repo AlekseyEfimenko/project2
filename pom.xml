@@ -42,10 +42,6 @@
                                 <name>password</name>
                                 <value>${password}</value>
                             </property>
-                            <property>
-                                <name>browser</name>
-                                <value>${browser}</value>
-                            </property>
                         </systemProperties>
                     </configuration>
                 </plugin>

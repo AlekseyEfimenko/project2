@@ -43,7 +43,6 @@ public class MobileTest extends MobileBaseTest {
         steps.assertLeagueModePageIsOpened();
 
         steps.addOddsToBetSlip(add);
-
         steps.navigateToBetSlip();
         steps.assertBetSlipFormIsOpened();
         steps.assertCorrectQuantityInBetSlip(add);

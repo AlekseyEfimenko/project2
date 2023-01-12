@@ -10,7 +10,7 @@ public class UITest extends UIBaseTest {
     private static final double MIN_STAKE = 10.0;
     private static final double MAX_STAKE = 20000.0;
     private static final double STAKE = DataManager.getRandomNumber(MIN_STAKE, MAX_STAKE);
-    private static final double STAKE_BELOW_LIMIT = MIN_STAKE-0.01;
+    private static final double STAKE_BELOW_LIMIT = MIN_STAKE - 0.01;
 
     @Feature("Desktop")
     @Description("Placing multi bet")
@@ -58,6 +58,7 @@ public class UITest extends UIBaseTest {
     @Test()
     public void testSystem23Bet(int quantity, String colour, String message1, String message2){
         steps.assertLeagueModePageIsOpened();
+
         steps.selectMatchDay();
         steps.addOddsToBetSlip(quantity);
         steps.assertCorrectQuantityInBetSlip(quantity);
@@ -85,7 +86,6 @@ public class UITest extends UIBaseTest {
 
         steps.setSinglesStake(STAKE_BELOW_LIMIT);
         steps.checkBetButtonDisabled();
-
     }
 
     @Feature("Desktop")

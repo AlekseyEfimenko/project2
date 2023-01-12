@@ -14,12 +14,13 @@ import org.openqa.selenium.By;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class LeagueModePage extends Form {
     private static final By TITLE_PAGE_XPATH = By
             .xpath("//*[@id = 'virtual-sports']//*[text() = 'Virtual Football League Mode']");
-    private static final By CURRENT_MATCH_DAY_CLASS = By.className("currentMatchday");
-    private static final By NEXT_MATCH_DAY_CSS = By.cssSelector(".currentMatchday + div");
+    private static final By CURRENT_MATCH_DAY_CLASS = By.className("selectedMatchday");
+    private static final By NEXT_MATCH_DAY_CSS = By.cssSelector(".selectedMatchday + div");
     private static final By FIRST_MATCH_DAY_ID = By.id("md31");
     private static final By ODDS_LIST_CLASS = By.className("sr-oddsButton");
     private static final By GAMES_LIST_CLASS = By.className("sr-matchRow");
@@ -27,6 +28,7 @@ public class LeagueModePage extends Form {
     private static final By DEFAULT_IFRAME_CSS = By.cssSelector("#virtual-sports iframe");
     private static final String VISUAL_IFRAME_ID = "vsm-ea-iframe";
     private static final String MAX_MATCH_DAY = "30";
+    private static final int MATCHES_PER_DAY = 8;
     private static final String SCROLL_SCRIPT = "arguments[0].scrollIntoView();";
 
     public LeagueModePage() {
@@ -36,10 +38,12 @@ public class LeagueModePage extends Form {
     public void selectNextMatchDay() {
         switchToDefaultIframe();
         switchToVisualIframe();
-        if (waitForElement(CURRENT_MATCH_DAY_CLASS).shouldBe(Condition.appear).text().equals(MAX_MATCH_DAY)) {
-            waitForElement(FIRST_MATCH_DAY_ID).click();
-        } else {
-            waitForElement(NEXT_MATCH_DAY_CSS).shouldBe(Condition.appear).click();
+        if (Objects.requireNonNull(waitForElement(CURRENT_MATCH_DAY_CLASS).getAttribute("class")).contains("currentMatchday")) {
+            if (waitForElement(CURRENT_MATCH_DAY_CLASS).shouldBe(Condition.appear).text().equals(MAX_MATCH_DAY)) {
+                waitForElement(FIRST_MATCH_DAY_ID).click();
+            } else {
+                waitForElement(NEXT_MATCH_DAY_CSS).shouldBe(Condition.appear).click();
+            }
         }
     }
 
@@ -62,11 +66,11 @@ public class LeagueModePage extends Form {
     }
 
     private List<SelenideElement> getListOfAvailableOdds(SelenideElement element) {
-        return element.$$(ODDS_LIST_CLASS).shouldBe(CollectionCondition.size(8));
+        return element.$$(ODDS_LIST_CLASS).shouldBe(CollectionCondition.size(MATCHES_PER_DAY));
     }
 
     private List<SelenideElement> getListOfMatchDayGames() {
-        return $$(GAMES_LIST_CLASS).shouldBe(CollectionCondition.size(8));
+        return $$(GAMES_LIST_CLASS).shouldBe(CollectionCondition.size(MATCHES_PER_DAY));
     }
 
     private void switchToDefaultIframe() {

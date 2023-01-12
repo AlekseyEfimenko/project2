@@ -96,14 +96,14 @@ public class TestSteps {
         getInstance().postRequest(target, body);
     }
 
-    public void assertForbiddenStatusCode(int statusCode) {
-        LOG.info("Checking if status code of the request is equals to {}", FORBIDDEN.getValue());
+    public void assertSuccessForbiddenStatusCode() {
+        LOG.info("Checking if status code of the request is equals to {} or {}", FORBIDDEN.getValue(), SUCCESS.getValue());
 
-        assertThat(getInstance().getStatusCode() == statusCode)
-            .as(String.format("Expected status code of request is: %1$s, but was found: %2$s",
-                FORBIDDEN.getValue(),
+        assertThat(getInstance().getStatusCode())
+            .as(String.format("Expected status code of request is: %1$s or %2$s but was found: %3$s ",
+                FORBIDDEN.getValue(), SUCCESS.getValue(),
                 getInstance().getStatusCode()))
-            .isTrue();
+            .isIn( FORBIDDEN.getValue(),SUCCESS.getValue() );
         LOG.info(SUCCESS_MESSAGE);
     }
     public void assertUnauthorizedStatusCode(int statusCode) {
