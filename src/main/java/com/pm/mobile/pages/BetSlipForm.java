@@ -17,6 +17,7 @@ public class BetSlipForm extends Form {
     private static final By MULTI_XPATH =
             xpath("(//*[@resource-id = 'betslip']//android.widget.ListView/parent::*//android.widget.Button)[2]");
     private static final By TICKET_STAKE_XPATH = xpath("//*[@resource-id = 'multi']");
+    private static final By SYSTEM_TICKET_STAKE_XPATH = xpath("//*[@resource-id = '2/3']");
     private static final By TOTAL_ODDS_XPATH =
             xpath("((//*[@resource-id = 'betslip']/android.view.View/android.view.View)[last()]/android.widget.TextView)[1]");
     private static final By POSSIBLE_WINNNINGS_XPATH =
@@ -92,4 +93,7 @@ public class BetSlipForm extends Form {
         waitForExpectedElement(SYSTEM_XPATH).click();
     }
 
+    public void setSystemStake(String stake) {
+        waitForExpectedElement(SYSTEM_TICKET_STAKE_XPATH).sendKeys(stake);
+    }
 }

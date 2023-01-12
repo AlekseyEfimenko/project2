@@ -70,7 +70,7 @@ public class MobileTest extends MobileBaseTest {
         steps.assertCorrectOddsAreAdded();
 
         steps.selectSystemCategory();
-        steps.setStake(STAKE);
+        steps.setSystemStake(STAKE);
 
 
         steps.acceptBet();

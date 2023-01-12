@@ -1,6 +1,7 @@
 package com.pm.api.steps;
 
 import static com.pm.api.StatusCode.FORBIDDEN;
+import static com.pm.api.StatusCode.UNAUTHORIZED;
 import static com.pm.utils.ApiManager.getInstance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static com.pm.api.StatusCode.SUCCESS;
@@ -101,6 +102,16 @@ public class TestSteps {
         assertThat(getInstance().getStatusCode() == statusCode)
             .as(String.format("Expected status code of request is: %1$s, but was found: %2$s",
                 FORBIDDEN.getValue(),
+                getInstance().getStatusCode()))
+            .isTrue();
+        LOG.info(SUCCESS_MESSAGE);
+    }
+    public void assertUnauthorizedStatusCode(int statusCode) {
+        LOG.info("Checking if status code of the request is equals to {}", UNAUTHORIZED.getValue());
+
+        assertThat(getInstance().getStatusCode() == statusCode)
+            .as(String.format("Expected status code of request is: %1$s, but was found: %2$s",
+                UNAUTHORIZED.getValue(),
                 getInstance().getStatusCode()))
             .isTrue();
         LOG.info(SUCCESS_MESSAGE);
