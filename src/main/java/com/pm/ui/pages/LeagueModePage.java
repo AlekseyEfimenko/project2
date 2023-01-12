@@ -2,11 +2,11 @@ package com.pm.ui.pages;
 
 import static com.codeborne.selenide.Selenide.$$;
 import static com.codeborne.selenide.Condition.interactable;
+import static com.codeborne.selenide.Condition.appear;
 import static com.pm.temp.Context.ODDS;
 import static com.pm.temp.ScenarioContext.setContext;
 
 import com.codeborne.selenide.CollectionCondition;
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import com.pm.utils.BrowserManager;
 import com.pm.utils.DataManager;
@@ -38,11 +38,12 @@ public class LeagueModePage extends Form {
     public void selectNextMatchDay() {
         switchToDefaultIframe();
         switchToVisualIframe();
+
         if (Objects.requireNonNull(waitForElement(CURRENT_MATCH_DAY_CLASS).getAttribute("class")).contains("currentMatchday")) {
-            if (waitForElement(CURRENT_MATCH_DAY_CLASS).shouldBe(Condition.appear).text().equals(MAX_MATCH_DAY)) {
+            if (waitForElement(CURRENT_MATCH_DAY_CLASS).shouldBe(appear).text().equals(MAX_MATCH_DAY)) {
                 waitForElement(FIRST_MATCH_DAY_ID).click();
             } else {
-                waitForElement(NEXT_MATCH_DAY_CSS).shouldBe(Condition.appear).click();
+                waitForElement(NEXT_MATCH_DAY_CSS).shouldBe(appear).click();
             }
         }
     }

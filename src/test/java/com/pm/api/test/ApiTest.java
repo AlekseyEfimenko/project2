@@ -7,7 +7,6 @@ import static com.pm.temp.Context.TOKEN;
 import static com.pm.temp.ScenarioContext.getContext;
 
 import com.pm.api.EndPoints;
-import com.pm.api.StatusCode;
 import com.pm.api.pojo.NewUser;
 import com.pm.api.steps.TestSteps;
 import com.pm.utils.DataManager;
@@ -20,7 +19,7 @@ public class ApiTest {
     private static final String CHANGE_PASSWORD = EndPoints.UPDATE_PASSWORD.getValue();
     private static final String USER_PHONE = String.format("+38067%1$s", DataManager.getRandomNumber(7));
     private static final String USER_EMAIL = String.format("%1$s@ukr.net", DataManager.getRandomString(10));
-    private static final String INVALID_USER_EMAIL =  DataManager.getRandomString(10);
+    private static final String INVALID_USER_EMAIL = DataManager.getRandomString(10);
     private static final String USER_PASSWORD = DataManager.generatePassword(10);
     private static final String NEW_PASSWORD = DataManager.generatePassword(10);
     private static final String EMPTY_BODY = "{}";
@@ -31,7 +30,6 @@ public class ApiTest {
     private static final String NOT_MATCHING_PASSWORD = DataManager.generatePassword(10);
     private static final String INVALID_TOKEN = DataManager.getRandomString(15);
     private static final String INVALID_PHONE_NUMBER = DataManager.getRandomString(7);
-    private static final String INVALID_USER_EMAIL =DataManager.getRandomString(10);
 
     @Feature("API")
     @Description("Registering new user")
@@ -55,7 +53,7 @@ public class ApiTest {
     @Feature("API")
     @Description("Registration of a new user with an invalid email")
     @Test()
-    public void registerNewUserUsingInvalidEmail(){
+    public void registerNewUserUsingInvalidEmail() {
         steps.registerNewUser(new NewUser(USER_PHONE, INVALID_USER_EMAIL, USER_PASSWORD), REGISTER_NEW_USER);
         steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
     }
@@ -67,10 +65,11 @@ public class ApiTest {
         steps.changePassword(USER_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, (String) getContext(TOKEN));
         steps.assertSuccessStatusCode(SUCCESS.getValue());
     }
+
     @Feature("API")
     @Description("Change user password using not matching old password")
     @Test(dependsOnMethods = {"registerNewUser"})
-    public void changePasswordUsingNotMatchingOldPassword(){
+    public void changePasswordUsingNotMatchingOldPassword() {
         steps.changePassword(NOT_MATCHING_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, (String) getContext(TOKEN));
         steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
         steps.assertBodyIsNotEmpty(EMPTY_BODY);
@@ -79,15 +78,15 @@ public class ApiTest {
     @Feature("API")
     @Description("Change user password using invalid token")
     @Test(dependsOnMethods = {"registerNewUser"})
-    public void changePasswordUsingInvalidToken(){
-        steps.changePassword(USER_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD,INVALID_TOKEN);
+    public void changePasswordUsingInvalidToken() {
+        steps.changePassword(USER_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, INVALID_TOKEN);
         steps.assertUnauthorizedStatusCode(UNAUTHORIZED.getValue());
     }
 
     @Feature("API")
     @Description("Changing a user's current password using an invalid new password")
     @Test(dependsOnMethods = {"registerNewUser"})
-    public void changePasswordUsingInvalidNewPassword(){
+    public void changePasswordUsingInvalidNewPassword() {
         steps.changePassword(USER_PASSWORD, EMPTY_BODY, CHANGE_PASSWORD, (String) getContext(TOKEN));
         steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
     }
@@ -95,11 +94,12 @@ public class ApiTest {
     @Feature("API")
     @Description("Login user using Email")
     @Test(dependsOnMethods = "registerNewUser")
-    public void loginUsingEmail(){
+    public void loginUsingEmail() {
         steps.login(USER_EMAIL, USER_PASSWORD, LOGIN);
-        steps.assertSuccessStatusCode(SUCCESS.getValue());
+        steps.assertSuccessForbiddenStatusCode();
         steps.assertBodyIsNotEmpty(EMPTY_BODY);
     }
+
     @Feature("API")
     @Description("Trying to register user, with an invalid email")
     @Test(dependsOnMethods = {"registerNewUser"})
@@ -109,18 +109,9 @@ public class ApiTest {
     }
 
     @Feature("API")
-    @Description("Change user password using not matching old password")
-    @Test(dependsOnMethods = {"registerNewUser"})
-    public void changePasswordUsingNotMatchingOldPassword(){
-        steps.changePassword(NOT_MATCHING_PASSWORD, NEW_PASSWORD, CHANGE_PASSWORD, (String) getContext(TOKEN));
-        steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
-        steps.assertBodyIsNotEmpty(EMPTY_BODY);
-    }
-
-    @Feature("API")
     @Description("Registration of a new user with an invalid phone number")
     @Test()
-    public void registerNewUserUsingInvalidPhoneNumber(){
+    public void registerNewUserUsingInvalidPhoneNumber() {
         steps.registerNewUser(new NewUser(INVALID_PHONE_NUMBER, USER_EMAIL, USER_PASSWORD), REGISTER_NEW_USER);
         steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
     }

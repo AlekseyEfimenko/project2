@@ -13,8 +13,6 @@ import io.restassured.filter.FilterContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.List;
-
 public class ApiManager {
     private static final String BASE_PATH = FileManager.getData().basePath();
     private static final String CONTENT_TYPE = "Content-Type";
@@ -42,18 +40,6 @@ public class ApiManager {
     }
 
     /**
-     * Send GET request to API
-     *
-     * @param target URL of request
-     */
-    public void getRequest(String target) {
-        response = RestAssured
-                .given()
-                .spec(specification)
-                .get(target);
-    }
-
-    /**
      * Send data to the API server to create new resource
      *
      * @param target URL to post request
@@ -61,16 +47,17 @@ public class ApiManager {
      */
     public <T> void postRequest(String target, T obj) {
         response = RestAssured.given()
+                .spec(specification)
                 .header(CONTENT_TYPE, ContentType.JSON)
                 .body(obj)
-                .post(BASE_PATH + target);
+                .post(target);
     }
 
     /**
      * Send data to the API server to create new resource
      *
      * @param target URL to post request
-     * @param body    String to put in the request body
+     * @param body   String to put in the request body
      */
     public <T> void postRequestMobile(String target, T body) {
         response = RestAssured.given()
@@ -89,10 +76,11 @@ public class ApiManager {
      */
     public <T> void postRequest(String target, T obj, String header) {
         response = RestAssured.given()
+                .spec(specification)
                 .header(CONTENT_TYPE, ContentType.JSON)
                 .header(AUTHORISATION, header)
                 .body(obj)
-                .post(BASE_PATH + target);
+                .post(target);
     }
 
     /**
@@ -139,26 +127,6 @@ public class ApiManager {
     }
 
     /**
-     * Get the list of some value from API request
-     *
-     * @param target The key to get list of values
-     * @param <T>    The type of value
-     * @return List of values by key "target"
-     */
-    public <T extends Comparable<T>> List<T> getList(String target) {
-        return response.jsonPath().getList(target);
-    }
-
-    /**
-     * Converting request from API server to list of T objects
-     *
-     * @return List of T objects
-     */
-    public <T> List<T> getListOfObjects(Class<T> cl, String target) {
-        return response.jsonPath().getList(target, cl);
-    }
-
-    /**
      * Filter request command and add logging
      */
     static class MyRequestFilter implements Filter {
@@ -174,7 +142,7 @@ public class ApiManager {
             }
             LOG.info("Status code of request is: {}", response.statusCode());
             if (response.statusCode() >= StatusCode.BAD_REQUEST.getValue()) {
-                LOG.error("{} => {}%n{}", requestSpec.getURI(), response.getStatusLine(), requestSpec.getBody());
+                LOG.error("{} => {}", requestSpec.getURI(), response.getStatusLine());
             }
             return response;
         }

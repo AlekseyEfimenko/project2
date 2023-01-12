@@ -71,7 +71,6 @@ public class MobileTest extends MobileBaseTest {
         steps.selectSystemCategory();
         steps.setSystemStake(STAKE);
 
-
         steps.acceptBet();
         steps.assertErrorMessageIsDisplayed(message1, message2);
     }

@@ -104,11 +104,4 @@ public class BrowserManager {
     public static <T> T executeScript(String script, WebElement element) {
         return Selenide.executeJavaScript(script, element);
     }
-
-    /**
-     * Reloads the page
-     */
-    public static void refreshThePage() {
-        Selenide.refresh();
-    }
 }

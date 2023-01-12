@@ -237,7 +237,7 @@ public class DataManager {
      */
     public static double calculatePossibleSystemPayout(List<String> odds, double betSum) {
         LOG.info("Calculating possible system payout according to the coefficients = {} and bet sum = {}",
-            odds, betSum);
+                odds, betSum);
         return roundToTwoDecimalPlaces((double) ScenarioContext.getContext(TOTAL_ODDS) * betSum);
     }
 

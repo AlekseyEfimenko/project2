@@ -36,6 +36,7 @@ public class TestSteps {
         logInPage = signUpPage.clickLogInButton();
     }
 
+    @SuppressWarnings("all")
     public void assertLoginPageIsOpened() {
         LOG.info(CHECK_PAGE_MESSAGE, logInPage.getName());
 

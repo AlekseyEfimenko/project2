@@ -87,7 +87,7 @@ public class TestSteps {
         LOG.info(SUCCESS_MESSAGE);
     }
 
-    public void login(String userLogin, String userPassword, String target){
+    public void login(String userLogin, String userPassword, String target) {
         LOG.info("Login user");
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(Keys.LOGIN.getValue(), userLogin);
@@ -100,20 +100,21 @@ public class TestSteps {
         LOG.info("Checking if status code of the request is equals to {} or {}", FORBIDDEN.getValue(), SUCCESS.getValue());
 
         assertThat(getInstance().getStatusCode())
-            .as(String.format("Expected status code of request is: %1$s or %2$s but was found: %3$s ",
-                FORBIDDEN.getValue(), SUCCESS.getValue(),
-                getInstance().getStatusCode()))
-            .isIn( FORBIDDEN.getValue(),SUCCESS.getValue() );
+                .as(String.format("Expected status code of request is: %1$s or %2$s but was found: %3$s ",
+                        FORBIDDEN.getValue(), SUCCESS.getValue(),
+                        getInstance().getStatusCode()))
+                .isIn(FORBIDDEN.getValue(), SUCCESS.getValue());
         LOG.info(SUCCESS_MESSAGE);
     }
+
     public void assertUnauthorizedStatusCode(int statusCode) {
         LOG.info("Checking if status code of the request is equals to {}", UNAUTHORIZED.getValue());
 
         assertThat(getInstance().getStatusCode() == statusCode)
-            .as(String.format("Expected status code of request is: %1$s, but was found: %2$s",
-                UNAUTHORIZED.getValue(),
-                getInstance().getStatusCode()))
-            .isTrue();
+                .as(String.format("Expected status code of request is: %1$s, but was found: %2$s",
+                        UNAUTHORIZED.getValue(),
+                        getInstance().getStatusCode()))
+                .isTrue();
         LOG.info(SUCCESS_MESSAGE);
     }
 }
