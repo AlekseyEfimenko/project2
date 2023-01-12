@@ -1,7 +1,5 @@
 package com.pm.utils;
 
-import static com.pm.temp.Context.TOTAL_ODDS;
-
 import com.codeborne.selenide.SelenideElement;
 import com.pm.temp.ScenarioContext;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -21,8 +19,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static com.pm.temp.Context.*;
+
 public class DataManager {
     private static final Logger LOG = LogManager.getRootLogger();
+
 
     private DataManager() {
     }

@@ -16,6 +16,7 @@ public class BetSlipForm extends Form {
     private static final By MULTI_XPATH =
             By.xpath("//*[@class ='sr-bs-systems-nav']/button[contains(text(), \"Multi\")]");
     private static final By TICKET_STAKE_ID = By.id("multi");
+
     private static final By TICKET_STAKE_SINGLES = By.id("singles");
     private static final By SYSTEM_TICKET_STAKE_ID = By.id("2/3");
     private static final By TOTAL_ODDS_XPATH =
@@ -69,15 +70,12 @@ public class BetSlipForm extends Form {
     public void setSinglesStake(String stake) {
         waitForElement(TICKET_STAKE_SINGLES).setValue(stake);
     }
-
     public String getTotalOdds() {
         return waitForElement(TOTAL_ODDS_XPATH).shouldNotBe(exactText("0.00")).text();
     }
-
     public String getPossibleWinnings() {
         return waitForElement(POSSIBLE_WINNNINGS_XPATH).text();
     }
-
     public void placeBet() {
         waitForElement(PLACE_BET_CLASS).click();
     }

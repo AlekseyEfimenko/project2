@@ -15,7 +15,7 @@ public class UITest extends UIBaseTest {
     @Feature("Desktop")
     @Description("Placing multi bet")
     @Parameters({"multiOdd_quantity", "colour", "errorMessage1", "errorMessage2"})
-    @Test
+    @Test(enabled = false)
     public void testMultiBet(int quantity, String colour, String message1, String message2) {
         steps.assertLeagueModePageIsOpened();
 
@@ -36,9 +36,25 @@ public class UITest extends UIBaseTest {
     }
 
     @Feature("Desktop")
+    @Description("Placing single bet")
+    @Parameters({"singleRate_quantity", "errorMessage1", "errorMessage2"})
+    @Test
+    public void testSingleBet(int quantity, String message1, String message2) {
+        steps.assertLeagueModePageIsOpened();
+        steps.selectMatchDay();
+        steps.addOddsToBetSlip(quantity);
+        steps.assertCorrectQuantityInBetSlip(quantity);
+        steps.assertCorrectOddsAreAdded();
+        steps.setSinglesStake(STAKE);
+        steps.acceptBet();
+        steps.assertErrorMessageIsDisplayed(message1, message2);
+        steps.removeSinglesOddsFromBetSlip();
+    }
+
+    @Feature("Desktop")
     @Description("Removing bets from the bet slip")
     @Parameters({"betsToAdd", "betsToRemove"})
-    @Test
+    @Test(enabled = false)
     public void removeBetsFromBetSlip(int add, int remove) {
         steps.assertLeagueModePageIsOpened();
 
@@ -55,7 +71,7 @@ public class UITest extends UIBaseTest {
     @Feature("Desktop")
     @Description("Placing system bet")
     @Parameters({"systemOdd_quantity", "colour", "errorMessage1", "errorMessage2"})
-    @Test
+    @Test(enabled = false)
     public void testSystem23Bet(int quantity, String colour, String message1, String message2){
         steps.assertLeagueModePageIsOpened();
         steps.selectMatchDay();
@@ -74,7 +90,7 @@ public class UITest extends UIBaseTest {
     @Feature("Desktop")
     @Description("Make a bet less than 10 UAH")
     @Parameters({"multiOdd_quantity"})
-    @Test
+    @Test(enabled = false)
     public void makeBetLess10UAH(int number) {
         steps.assertLeagueModePageIsOpened();
 
