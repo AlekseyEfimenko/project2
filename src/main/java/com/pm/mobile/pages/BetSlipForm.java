@@ -13,11 +13,14 @@ public class BetSlipForm extends Form {
     private static final By BET_SLIP_XPATH = xpath("//*[@resource-id = 'betslip']/android.view.View");
     private static final By BET_SLIP_CONTAINER_XPATH = xpath("//*[@resource-id = 'sr-bs-show-betslip']");
     private static final By ODD_XPATH =
-            xpath("//*[@resource-id = 'betslip']//android.widget.ListView//(android.widget.TextView)[last()]");
+            xpath("//*[@resource-id = 'betslip']//android.widget.ListView//android.widget.TextView[last()]");
     private static final By MULTI_XPATH =
             xpath("(//*[@resource-id = 'betslip']//android.widget.ListView/parent::*//android.widget.Button)[2]");
+    private static final By SINGLE_XPATH =
+            xpath("(//*[@resource-id = 'betslip']//android.widget.ListView/parent::*//android.widget.Button)[1]");
     private static final By TICKET_STAKE_XPATH = xpath("//*[@resource-id = 'multi']");
     private static final By SYSTEM_TICKET_STAKE_XPATH = xpath("//*[@resource-id = '2/3']");
+    private static final By SINGLE_TICKET_STAKE_XPATH = xpath("//*[@resource-id = 'singles']");
     private static final By TOTAL_ODDS_XPATH =
             xpath("((//*[@resource-id = 'betslip']/android.view.View/android.view.View)[last()]/android.widget.TextView)[1]");
     private static final By POSSIBLE_WINNNINGS_XPATH =
@@ -50,6 +53,10 @@ public class BetSlipForm extends Form {
         waitForExpectedElement(MULTI_XPATH).click();
     }
 
+    public void selectSingle() {
+        waitForExpectedElement(SINGLE_XPATH).click();
+    }
+
     public void setStake(String stake) {
         waitForExpectedElement(TICKET_STAKE_XPATH).sendKeys(stake);
     }
@@ -65,6 +72,13 @@ public class BetSlipForm extends Form {
     public void placeBet() {
         //to close appeared keyboard we must click somewhere on the screen
         selectMulti();
+
+        waitForExpectedElement(PLACE_BET_XPATH).click();
+    }
+
+    public void placeSingleBet() {
+        //to close appeared keyboard we must click somewhere on the screen
+        selectSingle();
 
         waitForExpectedElement(PLACE_BET_XPATH).click();
     }
@@ -95,5 +109,9 @@ public class BetSlipForm extends Form {
 
     public void setSystemStake(String stake) {
         waitForExpectedElement(SYSTEM_TICKET_STAKE_XPATH).sendKeys(stake);
+    }
+
+    public void setSingleStake(String stake) {
+        waitForExpectedElement(SINGLE_TICKET_STAKE_XPATH).sendKeys(stake);
     }
 }

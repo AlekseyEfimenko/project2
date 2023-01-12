@@ -186,6 +186,11 @@ public class TestSteps {
         betSlipForm.placeBet();
     }
 
+    public void acceptSingleBet() {
+        LOG.info("Placing the bet in the bet slip");
+        betSlipForm.placeSingleBet();
+    }
+
     public void assertErrorMessageIsDisplayed(String message1, String message2) {
         LOG.info("Checking if error message \"{}\" or \"{}\" is displayed", message1, message2);
 
@@ -231,5 +236,10 @@ public class TestSteps {
     public void setSystemStake(double stake) {
         LOG.info("Setting ticket stake to {}", stake);
         betSlipForm.setSystemStake(String.valueOf(stake).replace('.', ','));
+    }
+
+    public void setSingleStake(double stake) {
+        LOG.info("Setting ticket stake to {}", stake);
+        betSlipForm.setSingleStake(String.valueOf(stake).replace('.', ','));
     }
 }

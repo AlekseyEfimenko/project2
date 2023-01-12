@@ -76,4 +76,24 @@ public class MobileTest extends MobileBaseTest {
         steps.acceptBet();
         steps.assertErrorMessageIsDisplayed(message1, message2);
     }
+
+    @Feature("Mobile")
+    @Description("Placing system bet")
+    @Parameters({"multiOdd_quantity", "colourMobile", "errorMessageMobile1", "errorMessageMobile2"})
+    @Test
+    public void testSingleBet(int quantity, String colour, String message1, String message2) {
+        steps.assertLeagueModePageIsOpened();
+
+        steps.addOddsToBetSlip(quantity);
+        steps.assertOddsAreHighlighted(colour);
+
+        steps.navigateToBetSlip();
+        steps.assertBetSlipFormIsOpened();
+        steps.assertCorrectQuantityInBetSlip(quantity);
+        steps.assertCorrectOddsAreAdded();
+
+        steps.setSingleStake(STAKE);
+        steps.acceptSingleBet();
+        steps.assertErrorMessageIsDisplayed(message1, message2);
+    }
 }
