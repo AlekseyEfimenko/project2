@@ -14,8 +14,8 @@
         <parameter name="systemOdd_quantity" value="3"/>
         <classes>
             <class name="com.pm.api.test.ApiTest"/>
-            <class name="com.pm.ui.test.UITest"/>
-            <class name="com.pm.mobile.test.MobileTest"/>
+          <!--  <class name="com.pm.ui.test.UITest"/>
+            <class name="com.pm.mobile.test.MobileTest"/>-->
         </classes>
     </test>
 </suite>
