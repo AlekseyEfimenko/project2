@@ -19,19 +19,17 @@ public class ApiTest {
     private static final String CHANGE_PASSWORD = EndPoints.UPDATE_PASSWORD.getValue();
     private static final String USER_PHONE = String.format("+38067%1$s", DataManager.getRandomNumber(7));
     private static final String USER_EMAIL = String.format("%1$s@ukr.net", DataManager.getRandomString(10));
-    private static final String INVALID_USER_EMAIL = String.format("%1$sukr.net", DataManager.getRandomString(10));
+    private static final String INVALID_USER_EMAIL =  DataManager.getRandomString(10);
     private static final String USER_PASSWORD = DataManager.generatePassword(10);
     private static final String NEW_PASSWORD = DataManager.generatePassword(10);
     private static final String EMPTY_BODY = "{}";
     private static final String TOKEN_KEY = "token";
     private static final String DESCRIPTION_MESSAGE = "Email and Currency pair is already used.";
-    private static final String INVALID_EMAIL_MESSAGE = "Email and Currency pair is already used.";
     protected TestSteps steps = new TestSteps();
     private static final String LOGIN = EndPoints.LOGIN.getValue();
     private static final String NOT_MATCHING_PASSWORD = DataManager.generatePassword(10);
     private static final String INVALID_TOKEN = DataManager.getRandomString(15);
     private static final String INVALID_PHONE_NUMBER = DataManager.getRandomString(7);
-    private static final String INVALID_USER_EMAIL = DataManager.getRandomString(10);
 
     @Feature("API")
     @Description("Registering new user")
@@ -115,6 +113,5 @@ public class ApiTest {
     public void registerWithInvalidEmail() {
         steps.registerNewUser(new NewUser(USER_PHONE, INVALID_USER_EMAIL, USER_PASSWORD), REGISTER_NEW_USER);
         steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
-        //steps.assertErrorMessage(INVALID_EMAIL_MESSAGE);
     }
 }
