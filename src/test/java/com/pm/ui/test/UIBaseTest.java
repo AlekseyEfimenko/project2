@@ -15,8 +15,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 
 public class UIBaseTest {
-    private static final String EMAIL = "mr.ren1one@gmail.com"; //System.getProperty("email");
-    private static final String PASSWORD = "R.kvashuk106072"; //System.getProperty("password");
+    private static final String EMAIL = System.getProperty("email");
+    private static final String PASSWORD = System.getProperty("password");
     protected final TestSteps steps = new TestSteps();
 
     @BeforeTest
@@ -43,7 +43,7 @@ public class UIBaseTest {
     @Description("Clearing bet slip and refreshing the page")
     @AfterMethod
     public void resetPrecondition() {
-        //steps.removeAllOddsFromBetSlip();
+        steps.removeAllOddsFromBetSlip();
         BrowserManager.clearAllCookies();
         BrowserManager.refreshThePage();
     }
