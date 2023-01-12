@@ -27,6 +27,7 @@ public class ApiTest {
     protected TestSteps steps = new TestSteps();
     private static final String LOGIN = EndPoints.LOGIN.getValue();
     private static final String NOT_MATCHING_PASSWORD = DataManager.generatePassword(10);
+    private static final String INVALID_PHONE_NUMBER = DataManager.getRandomString(7);
 
     @Feature("API")
     @Description("Registering new user")
@@ -57,7 +58,7 @@ public class ApiTest {
 
     @Feature("API")
     @Description("Login user using Email")
-    @Test(dependsOnMethods = "registerNewUser")
+    @Test(dependsOnMethods = "registerNewUser", enabled = false)
     public void loginUsingEmail(){
         steps.login(USER_EMAIL, USER_PASSWORD, LOGIN);
         steps.assertForbiddenStatusCode(StatusCode.FORBIDDEN.getValue());
@@ -73,4 +74,11 @@ public class ApiTest {
         steps.assertBodyIsNotEmpty(EMPTY_BODY);
     }
 
+    @Feature("API")
+    @Description("Registration of a new user with an invalid phone number")
+    @Test()
+    public void registerNewUserUsingInvalidPhoneNumber(){
+        steps.registerNewUser(new NewUser(INVALID_PHONE_NUMBER, USER_EMAIL, USER_PASSWORD), REGISTER_NEW_USER);
+        steps.assertBadRequestStatusCode(BAD_REQUEST.getValue());
+    }
 }

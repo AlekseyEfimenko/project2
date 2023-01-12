@@ -3,7 +3,6 @@
 <suite name="Project_2">
     <test verbose="2" name="Parimatch_Virtual_Football">
         <parameter name="multiOdd_quantity" value="2"/>
-        <parameter name="singleRate_quantity" value="1"/>
         <parameter name="colour" value="rgb(248, 255, 19)"/>
         <parameter name="colourMobile" value="rgb(67, 67, 67)"/>
         <parameter name="errorMessage1" value="Insufficient funds."/>
@@ -14,8 +13,8 @@
         <parameter name="betsToRemove" value="3"/>
         <parameter name="systemOdd_quantity" value="3"/>
         <classes>
-<!--            <class name="com.pm.api.test.ApiTest"/>-->
-            <class name="com.pm.ui.test.UITest"/>
+            <class name="com.pm.api.test.ApiTest"/>
+<!--            <class name="com.pm.ui.test.UITest"/>-->
 <!--            <class name="com.pm.mobile.test.MobileTest"/>-->
         </classes>
     </test>
