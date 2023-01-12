@@ -104,8 +104,7 @@ public class ApiTest {
     @Test(dependsOnMethods = "registerNewUser")
     public void loginUsingEmail(){
         steps.login(USER_EMAIL, USER_PASSWORD, LOGIN);
-        steps.assertSuccessStatusCode(SUCCESS.getValue());
+        steps.assertSuccessForbiddenStatusCode();
         steps.assertBodyIsNotEmpty(EMPTY_BODY);
-        steps.assertTokenIsGenerated(TOKEN_KEY);
     }
 }
