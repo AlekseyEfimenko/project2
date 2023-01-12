@@ -43,7 +43,7 @@ public class UIBaseTest {
     @Description("Clearing bet slip and refreshing the page")
     @AfterMethod
     public void resetPrecondition() {
-        //steps.removeAllOddsFromBetSlip();
+        steps.removeAllOddsFromBetSlip();
         BrowserManager.clearAllCookies();
         BrowserManager.refreshThePage();
     }
